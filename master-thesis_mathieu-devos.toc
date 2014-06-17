@@ -35,38 +35,38 @@
 \contentsline {section}{\numberline {3.9}Enrollment}{35}{section.3.9}
 \contentsline {section}{\numberline {3.10}WiFi Shim IPC Process Definition}{36}{section.3.10}
 \contentsline {subsection}{\numberline {3.10.1}applicationRegister(naming-info).submit}{37}{subsection.3.10.1}
-\contentsline {subsubsection}{When invoked}{37}{section*.28}
-\contentsline {subsubsection}{Action upon receipt}{37}{section*.29}
+\contentsline {subsubsection}{When invoked}{37}{section*.29}
+\contentsline {subsubsection}{Action upon receipt}{37}{section*.30}
 \contentsline {subsection}{\numberline {3.10.2}applicationUnregister(naming-info).submit}{38}{subsection.3.10.2}
-\contentsline {subsubsection}{When invoked}{38}{section*.30}
-\contentsline {subsubsection}{Action upon receipt}{38}{section*.31}
+\contentsline {subsubsection}{When invoked}{38}{section*.31}
+\contentsline {subsubsection}{Action upon receipt}{38}{section*.32}
 \contentsline {subsection}{\numberline {3.10.3}allocateRequest(naming-info).submit}{38}{subsection.3.10.3}
-\contentsline {subsubsection}{When invoked}{38}{section*.32}
-\contentsline {subsubsection}{Action upon receipt}{38}{section*.33}
+\contentsline {subsubsection}{When invoked}{38}{section*.33}
+\contentsline {subsubsection}{Action upon receipt}{38}{section*.34}
 \contentsline {subsection}{\numberline {3.10.4}allocateResponse(reason).submit}{38}{subsection.3.10.4}
-\contentsline {subsubsection}{When invoked}{38}{section*.34}
-\contentsline {subsubsection}{Action upon receipt}{39}{section*.35}
+\contentsline {subsubsection}{When invoked}{38}{section*.35}
+\contentsline {subsubsection}{Action upon receipt}{39}{section*.36}
 \contentsline {subsection}{\numberline {3.10.5}arpMapping(netaddr,hwaddr).deliver}{39}{subsection.3.10.5}
-\contentsline {subsubsection}{When invoked}{39}{section*.36}
-\contentsline {subsubsection}{Action upon receipt}{39}{section*.37}
+\contentsline {subsubsection}{When invoked}{39}{section*.37}
+\contentsline {subsubsection}{Action upon receipt}{39}{section*.38}
 \contentsline {subsection}{\numberline {3.10.6}sapMapping(CEP-id,Port-id,Naming-info).query}{39}{subsection.3.10.6}
-\contentsline {subsubsection}{When invoked}{39}{section*.38}
-\contentsline {subsubsection}{Action upon receipt}{39}{section*.39}
+\contentsline {subsubsection}{When invoked}{39}{section*.39}
+\contentsline {subsubsection}{Action upon receipt}{39}{section*.40}
 \contentsline {subsection}{\numberline {3.10.7}sapMapping(reason).deliver}{40}{subsection.3.10.7}
-\contentsline {subsubsection}{When invoked}{40}{section*.40}
-\contentsline {subsubsection}{Action upon receipt}{40}{section*.41}
+\contentsline {subsubsection}{When invoked}{40}{section*.41}
+\contentsline {subsubsection}{Action upon receipt}{40}{section*.42}
 \contentsline {subsection}{\numberline {3.10.8}Frame}{40}{subsection.3.10.8}
-\contentsline {subsubsection}{When invoked}{40}{section*.42}
-\contentsline {subsubsection}{Action upon receipt}{40}{section*.43}
+\contentsline {subsubsection}{When invoked}{40}{section*.43}
+\contentsline {subsubsection}{Action upon receipt}{40}{section*.44}
 \contentsline {subsection}{\numberline {3.10.9}read.submit}{40}{subsection.3.10.9}
-\contentsline {subsubsection}{When invoked}{40}{section*.44}
-\contentsline {subsubsection}{Action upon receipt}{40}{section*.45}
+\contentsline {subsubsection}{When invoked}{40}{section*.45}
+\contentsline {subsubsection}{Action upon receipt}{40}{section*.46}
 \contentsline {subsection}{\numberline {3.10.10}write.submit}{41}{subsection.3.10.10}
-\contentsline {subsubsection}{When invoked}{41}{section*.46}
-\contentsline {subsubsection}{Action upon receipt}{41}{section*.47}
+\contentsline {subsubsection}{When invoked}{41}{section*.47}
+\contentsline {subsubsection}{Action upon receipt}{41}{section*.48}
 \contentsline {subsection}{\numberline {3.10.11}deallocate.submit}{41}{subsection.3.10.11}
-\contentsline {subsubsection}{When invoked}{41}{section*.48}
-\contentsline {subsubsection}{Action upon receipt}{41}{section*.49}
+\contentsline {subsubsection}{When invoked}{41}{section*.49}
+\contentsline {subsubsection}{Action upon receipt}{41}{section*.50}
 \contentsline {subsection}{\numberline {3.10.12}Corresponding state diagram}{41}{subsection.3.10.12}
 \contentsline {chapter}{\numberline {4}Implementation}{43}{chapter.4}
 \contentsline {section}{\numberline {4.1}Plan of action}{43}{section.4.1}
@@ -85,4 +85,4 @@
 \contentsline {chapter}{\numberline {5}Conclusion}{58}{chapter.5}
 \contentsline {section}{\numberline {5.1}Plan of operation}{58}{section.5.1}
 \contentsline {section}{\numberline {5.2}Research question answer}{59}{section.5.2}
-\contentsline {chapter}{Bibliography}{60}{chapter*.53}
+\contentsline {chapter}{Bibliography}{60}{chapter*.54}
