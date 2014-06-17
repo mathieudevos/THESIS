@@ -35,24 +35,24 @@ Drivers can also function in other modes, some of which will be handled later in
 
 \npar
 
-For the initial part of this thesis we will leave the device in either STA or IBSS mode. This means that the drivers will \emph{translate} the 802.11 MAC-headers to 802.1q MAC-headers when in STA mode (see Appendix~\ref{chap:emailconvo}. If this happens in IBSS mode we will have to test or ask authorized sources\footnote{Linux Wireless Kernel group for example}. The difference can be seen in the figure below (figure~\ref{fig:80211vs8021q}). We see that the entire header (Ethernet) becomes quite a bit easier to understand in STA mode. Since the IRATI project already has a working Ethernet Shim-DIF this will, under normal conditions, fit on this MAC header in STA mode. When expanding further down the road we will have to implement a Shim-DIF capable of handling the 802.11 MAC header. 
+For the initial part of this thesis we will leave the device in either STA or IBSS mode. This means that the drivers will \emph{translate} the 802.11 MAC-headers to 802.1Q MAC-headers when in STA mode. If this happens in IBSS mode we will have to test or ask authorized sources\footnote{Linux Wireless Kernel group for example}. The difference can be seen in the figure below (figure~\ref{fig:80211vs8021q}). We see that the entire header (Ethernet) becomes quite a bit easier to understand in STA mode. Since the IRATI project already has a working Ethernet Shim-DIF this will, under normal conditions, fit on this MAC header in STA mode. When expanding further down the road we will have to implement a Shim-DIF capable of handling the 802.11 MAC header. 
 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/80211vs8021q}
-    \caption{802.11 and 802.1q MAC headers} 
+    \caption{802.11 and 802.1Q MAC headers} 
     \label{fig:80211vs8021q}
 \end{figure}
 
 \npar
 
-Since WiFi (802.11) MAC headers have quite a lot more functions (30 bytes compared to 802.1q's 18 bytes) we will have to adjust the code for this. The functions that are added can potentially prove useful for the architecture and thus further study should be implemented. This research will focus on the overlap of functions between the MAC header and the functions provided by the IPC API. It can ultimately prove advantageous to use the full 802.11 header alongside with RINA instead of having drivers reform this header to a more easy to comprehend Ethernet MAC header. 
+Since WiFi MAC headers (802.11 MAC) have quite a lot more functions (30 bytes compared to 802.1Q's 18 bytes) we will have to adjust the code for this. The functions that are added can potentially prove useful for the architecture and thus further study should be implemented. This research will focus on the overlap of functions between the MAC header and the functions provided by the IPC API. It can ultimately prove advantageous to use the full WiFI header alongside with RINA instead of having drivers reform this header to a more easy to comprehend Ethernet MAC header. 
 
 
 \subsection{Shim-DIF for wireless}
 
-While under normal operation of the research question we delve further into the Shim-DIF over WiFi (see figure~\ref{fig:rinaoverwifi}. However, due to reasons stated in the previous segment we clearly see that this has now been reformed to:
+While under normal operation of the research question we delve further into the Shim-DIF over WiFi (see figure~\ref{fig:rinaoverwifi}). However, due to reasons stated in the previous segment we clearly see that this has now been reformed to:
 
 \begin{figure}[H]
     \centering
@@ -62,7 +62,7 @@ While under normal operation of the research question we delve further into the 
 \end{figure}
 
 \npar
-In normal conditions this means we can fully copy the code from IRATI we must remind ourselves that we are still working on another Operating System and this comes with consequences. These are handled in the next component. However if time allows this, we will take a closer look at the 802.11 packets and provide a Shim-DIF for the 802.11 standard (802.11n specifically). This provides a base for other developers who wish to update drivers further down to road to make said drivers compatible with RINA. 
+In normal conditions this means we can fully copy the code from IRATI, we must remind ourselves that we are still working on another Operating System and this comes with consequences. These are handled in the next component. We will take a closer look at the WiFi packets and provide a Shim-DIF for the WiFi standard. This provides a base for other developers who wish to update drivers further down to road to make said drivers compatible with RINA. 
 
 \subsection{Android restrictions}
 
