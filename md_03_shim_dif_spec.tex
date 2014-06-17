@@ -4,7 +4,7 @@
 
 \section{Introduction}
 
-In this chapter we will stipulate the Specification of the Shim DIF over WiFi. This DIF will only provide support for RINA DIFs. This DIF uses the WiFi legacy protocol on which it constructs an adaptor. The purpose of this Shim DIF is to present the IPC API to DIFs. Due to this we will not try to improve or change specifics of the WiFi protocol but we will try to map them as seamlessly as possible towards RINA. The Shim DIF will be used as the access point of the WiFi protocol, this implies that the very bottom layer will still be WiFi. The layer directly above this Shim DIF will see this Shim DIF as a DIF. A Shim DIF is a 0-DIF, it will function as the bottom DIF.
+In this chapter we will stipulate the Specification of the Shim DIF over WiFi. This DIF will only provide support for RINA DIFs. Given that a RINA DIF expects a RINA API as the lower API, the purpose of a Shim DIF is to create as thin a veneer as possible over a legacy protocol (WiFi) to allow a RINA DIF to use it without modification.  The goal is not to make legacy protocols provide full support for RINA and so the shim DIF should provide no more service or capability than the legacy protocol provides.
 
 \npar
 
