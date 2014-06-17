@@ -1,0 +1,21 @@
+\chapter{Introduction}
+
+With the Internet evolving at an ever increasing rate it seems to be heading in a clear direction. Is this evolution actually a positive aspect though? With a plethora of new protocols, legacy protocols, \ldots it would seem that a fundamental look needs to be taken at the current Internet. Starting at the origin of the Internet we move through the history and note that several issues have risen with the Internet that have never been properly addressed. We note that items such as: multihoming, layer boundary violation, \ldots are all issues that have been talked about, but never been resolved. The current Internet is a slow, outdated design that needs constant patching in order to function on barely acceptable levels. An alternative is needed. 
+
+\npar
+
+John Day noticed this problem with the current Internet and decided to do some research to what could be changed for this. This lead him to the conclusion that:
+
+\begin{quote}
+	\emph{'Networking is Inter Process Communication (IPC) and IPC only' \citep{johnday2008}}
+\end{quote}
+
+Based on this a new architecture was developed. This architecture has been named: \textbf{Recursive InterNetwork Architecture}, or in short: \textbf{RINA}. This new design takes us back to a very simple basic concept and builds recursively further on this. Old issues that still plague the current Internet vanish with this new design. The essence of the idea is quite simple: use only one repeating layer, a DIF. This DIF provides the basic needs for two IPC processes to communicate with each other. On the top of the architecture we have 2 applications running that want to communicate with each other. Through a process of several DIFs this data travels down the RINA towards the bottom where it is physically transmitted only to be brought up in layers again until finally it reaches its endpoint application. The entire process respects layer boundaries and stays within the scope of the DIF.
+
+\npar
+
+The next step in this project was an actual working testbed of this new architecture. This is the purpose of the irati project. This project has a clear goal to design a basic functional RIN architecture. This means that low level layer support needs to be provided. A working Ethernet implementation has been realized already. In recent light it has become clear that the Internet is moving towards mobility instead of the old desktops. An implementation is needed for WiFi. This is where this Master Thesis comes in. It will try to provide the RINA on WiFi. Added to this all is implementation for mobile devices, thus this thesis will handle WiFi on Android. The choice for Android was quickly made as it is partially open source and thus most of the code is publicly available.
+
+\npar
+
+In this Thesis we will start with a literature study that will take us through the history of the Internet. Following this brief history, the study will state the research question and provide the basic information on where to start the actual research. Once the literature study has been concluded with its placement in the Master Thesis, we will describe the specification of RINA over WiFi. The next step is the actual implementation of the current irati project on an Android test device. After this we will post our results, the road to these results and how they should be interpreted. Finally a conclusion will be written with added notes for future steps in this project.

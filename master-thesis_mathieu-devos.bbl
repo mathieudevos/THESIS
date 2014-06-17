@@ -1,0 +1,142 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\astroncite{Abbate}{2000}]{janetabbate2000}
+Abbate, J. (2000).
+\newblock {\em Inventing the Internet (Inside Technology)}.
+\newblock The MIT Press.
+
+\bibitem[\protect\astroncite{Berners-Lee}{2000}]{timbernerslee2000}
+Berners-Lee, T. (2000).
+\newblock {\em Weaving the Web: The Original Design and Ultimate Destiny of the
+  World Wide Web}.
+\newblock HarperBusiness.
+
+\bibitem[\protect\astroncite{Contributers}{2013}]{github:bionic}
+Contributers (2013).
+\newblock The gnu c library.
+\newblock \url{https://github.com/android/platform_bionic}.
+
+\bibitem[\protect\astroncite{Day}{2008}]{johnday2008}
+Day, J. (2008).
+\newblock {\em Patterns in Network Architecture: A Return to Fundamentals}.
+\newblock Prentice Hall.
+
+\bibitem[\protect\astroncite{dictionary.com}{2013}]{website:recursive_definition}
+dictionary.com (2013).
+\newblock Recursive | define recursive at dictionary.com.
+\newblock \url{http://dictionary.reference.com/browse/recursive?s=t}.
+
+\bibitem[\protect\astroncite{Gast}{2005}]{matthewgast2005}
+Gast, M. (2005).
+\newblock {\em 802.11 Wireless Networks: The Definitive Guide}.
+\newblock O'Reilly Media, second edition.
+
+\bibitem[\protect\astroncite{gnu.org}{2013}]{website:glibc}
+gnu.org (2013).
+\newblock The gnu c library.
+\newblock \url{http://www.gnu.org/software/libc/}.
+
+\bibitem[\protect\astroncite{Hafner}{1998}]{katiehafner1998}
+Hafner, K. (1998).
+\newblock {\em Where Wizards Stay Up Late: The Origins Of The Internet}.
+\newblock Simon \& Schuster.
+
+\bibitem[\protect\astroncite{Heart et~al.}{1970}]{frankheart1970}
+Heart, F., Kahn, R., Ornstein, S., Crowther, W., and Walden, D. (1970).
+\newblock The interface message processor for the arpa computer network.
+\newblock {\em Proc. 1970 Spring Joint Computer Conference}, 36:551--567.
+
+\bibitem[\protect\astroncite{{IEEE Computer Society}}{1998a}]{ieee8022std}
+{IEEE Computer Society} (1998a).
+\newblock {Part 2: Logical Link Control}.
+\newblock {\em IEEE}.
+
+\bibitem[\protect\astroncite{{IEEE Computer Society}}{1998b}]{arp1998}
+{IEEE Computer Society} (1998b).
+\newblock {Part 2: Logical Link Control}.
+\newblock {\em IEEE}.
+
+\bibitem[\protect\astroncite{{IEEE Computer Society}}{2012}]{ieee80211std}
+{IEEE Computer Society} (2012).
+\newblock {Part 11: Wireless LAN Medium Access Control (MAC) and Physical Layer
+  (PHY) Specifications}.
+\newblock {\em IEEE}.
+
+\bibitem[\protect\astroncite{internetsociety.org}{2014}]{website:Internethistory}
+internetsociety.org (2014).
+\newblock Brief history of the internet - internet timeline | internet society.
+\newblock
+  \url{http://www.internetsociety.org/internet/what-internet/history-internet/brief-history-internet}.
+
+\bibitem[\protect\astroncite{irati.eu}{2013}]{website:IRATI-obj}
+irati.eu (2013).
+\newblock The recursive internetwork architecture objectives.
+\newblock \url{http://irati.eu/goals/}.
+
+\bibitem[\protect\astroncite{Ortiz}{2009}]{sixtoortiz2009}
+Ortiz, S. (2009).
+\newblock {IEEE 802.11n: The Road Ahead}.
+\newblock {\em Computer}, 42(7):13--15.
+
+\bibitem[\protect\astroncite{Paul and Ogunfunmi}{2008}]{thomaspaul2008}
+Paul, T. and Ogunfunmi, T. (2008).
+\newblock {Wireless LAN Comes of Age: Understanding the IEEE 802.11n
+  Amendment}.
+\newblock {\em Circuits and Systems Magazine, IEEE}, 8(1):28--54.
+
+\bibitem[\protect\astroncite{Perahia}{2008}]{eldadperahia2008}
+Perahia, E. (2008).
+\newblock {IEEE 802.11n Development: History, Process, and Technology}.
+\newblock {\em IEEE Communications Magazine}, 46(7):48--55.
+
+\bibitem[\protect\astroncite{Salus}{1995}]{petersalus1995}
+Salus, P.~H. (1995).
+\newblock {\em Casting the Net: From ARPANET to INTERNET and Beyond}.
+\newblock Addison-Wesley Professional.
+
+\bibitem[\protect\astroncite{Salus}{2008}]{petersalus2008}
+Salus, P.~H. (2008).
+\newblock {\em The ARPANET Sourcebook: The Unpublished Foundations of the
+  Internet (Computer Classics Revisited)}.
+\newblock Peer-to-Peer Communications Inc.
+
+\bibitem[\protect\astroncite{Staessens}{2014}]{pwp:rinaintro}
+Staessens, D. (2014).
+\newblock Clean slate network architectures - are there new ways for
+  networking?
+\newblock iMinds JRA1 workshop.
+
+\bibitem[\protect\astroncite{Stultz}{2011}]{presentation:android_linux_kernel}
+Stultz, J. (2011).
+\newblock Android os for servers?
+\newblock \url{http://elinux.org/images/8/89/Elc2011_stultz.pdf}.
+
+\bibitem[\protect\astroncite{technet.microsoft.com}{2014}]{website:80211microsoft}
+technet.microsoft.com (2014).
+\newblock How 802.11 wireless works: Wireless.
+\newblock
+  \url{http://technet.microsoft.com/en-us/library/cc757419(v=ws.10).aspx}.
+
+\bibitem[\protect\astroncite{Vrijders et~al.}{2014}]{vrijders2014prototyping}
+Vrijders, S., Salvestrini, F., Grasa, E., Tarzan, M., Bergesio, L., Staessens,
+  D., and Colle, D. (2014).
+\newblock {Prototyping the Recursive InterNet Architecture: The IRATI project
+  approach}.
+\newblock {\em IEEE}.
+
+\bibitem[\protect\astroncite{Wiki}{2013a}]{website:android_linux_kernel}
+Wiki, E.~L. (2013a).
+\newblock Android kernel features - elinux.org.
+\newblock \url{http://elinux.org/Android_Kernel_Features}.
+
+\bibitem[\protect\astroncite{Wiki}{2013b}]{website:c_lib_bionic}
+Wiki, E.~L. (2013b).
+\newblock Android notes - elinux.org.
+\newblock \url{http://elinux.org/Android_Notes#C_Library_.28bionic.29_info}.
+
+\bibitem[\protect\astroncite{wireless.kernel.org}{2014}]{website:80211wirelesskernel}
+wireless.kernel.org (2014).
+\newblock modes - linux wireless.
+\newblock \url{http://wireless.kernel.org/en/users/Documentation/modes}.
+
+\end{thebibliography}

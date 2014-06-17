@@ -1,0 +1,7 @@
+[17794.487308] rina-kipcm: KIPCM instance ffff880007611a80 locking ...
+[17794.487312] rina-kipcm: KIPCM instance ffff880007611a80 locked
+[17794.487314] rina-ipcp-factories: Registering new factory
+[17794.487316] rina-ipcp-factories: Registering factory 'normal-ipc'
+[17794.487404] rina-ipcp-factories: Factory 'normal-ipc' registered successfully
+[17794.487405] rina-kipcm: KIPCM instance ffff880007611a80 unlocking ...
+[17794.487407] rina-kipcm: KIPCM instance ffff880007611a80 unlocked

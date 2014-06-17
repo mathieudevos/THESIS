@@ -1,0 +1,66 @@
+mathieudevos@debian:/usr/local/irati/bin$ sudo ./ipcmanager 
+26568(1402928339)#concurrency (DBG): Lockable created successfully
+26568(1402928339)#concurrency (DBG): Lockable created successfully
+2014-06-16 16:18:59,371 - INFO rina.ipcmanager.impl.Main - Instantiating IPC Manager ...
+}2014-06-16 16:18:59,405 - INFO rina.ipcmanager.impl.IPCManager - Initializing IPCManager console...
+}2014-06-16 16:18:59,433 - INFO rina.ipcmanager.impl.IPCManager - IPC Manager daemon initializing, reading RINA configuration ...
+}2014-06-16 16:18:59,453 - INFO rina.ipcmanager.impl.console.IPCManagerConsole - Waiting for connections to the IPC Manager console at port 32766
+}2014-06-16 16:18:59,781 - INFO rina.ipcmanager.impl.IPCManager - Read configuration file
+}2014-06-16 16:18:59,872 - INFO rina.ipcmanager.impl.IPCManager - {
+  "localConfiguration" : {
+    "consolePort" : 32766,
+    "cdapTimeoutInMs" : 10000,
+    "enrollmentTimeoutInMs" : 10000,
+    "maxEnrollmentRetries" : 3,
+    "flowAllocatorTimeoutInMs" : 15000,
+    "watchdogPeriodInMs" : 60000,
+    "declaredDeadIntervalInMs" : 120000,
+    "neighborsEnrollerPeriodInMs" : 10000,
+    "lengthOfFlowQueues" : 10,
+    "installationPath" : "/usr/local/irati/share/rinad",
+    "libraryPath" : "/usr/local/irati/lib"
+  },
+  "ipcProcessesToCreate" : [ {
+    "type" : "shim-eth-vlan",
+    "applicationProcessName" : "test-eth",
+    "applicationProcessInstance" : "1",
+    "difName" : "99",
+    "neighbors" : null,
+    "difsToRegisterAt" : null,
+    "hostname" : null,
+    "sduProtectionOptions" : null,
+    "parameters" : null
+  } ],
+  "difConfigurations" : [ {
+    "difName" : "99",
+    "difType" : null,
+    "dataTransferConstants" : null,
+    "qosCubes" : null,
+    "policies" : null,
+    "policyParameters" : null,
+    "nMinusOneFlowsConfiguration" : null,
+    "expectedApplicationRegistrations" : null,
+    "directory" : null,
+    "knownIPCProcessAddresses" : null,
+    "pdufTableGeneratorConfiguration" : null,
+    "addressPrefixes" : null,
+    "configParameters" : [ {
+      "name" : "interface-name",
+      "value" : "wlan0"
+    } ]
+  } ],
+  "applicationToDIFMappings" : [ {
+    "encodedAppName" : "rina.utils.apps.echo.server-1--",
+    "difName" : "99"
+  }, {
+    "encodedAppName" : "rina.utils.apps.echo.client-1--",
+    "difName" : "99"
+  } ]
+}
+}2014-06-16 16:18:59,873 - INFO rina.ipcmanager.impl.IPCManager - Initializing librina-ipcmanager...
+}26568(1402928339)#logs (DBG): New log level: INFO
+2014-06-16 16:18:59,926 - INFO rina.ipcmanager.impl.Main - IPC Manager instantiated successfully! Bootstrapping...
+}2014-06-16 16:18:59,930 - DEBUG rina.ipcmanager.impl.helpers.IPCProcessManager - Requested the assignment of IPC Process 1 to DIF 99
+}2014-06-16 16:18:59,932 - INFO rina.ipcmanager.impl.helpers.IPCProcessManager - Successfully assigned IPC Process 1 to DIF 99
+}2014-06-16 16:18:59,932 - INFO rina.ipcmanager.impl.Main - Bootstrapped IPC Manager, executing event loop ...
+}

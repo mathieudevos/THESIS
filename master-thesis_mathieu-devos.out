@@ -1,0 +1,65 @@
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
+\BOOKMARK [0][-]{chapter.2}{Literature study}{}% 2
+\BOOKMARK [1][-]{section.2.1}{Architecture and source of the Internet}{chapter.2}% 3
+\BOOKMARK [2][-]{subsection.2.1.1}{Origin and evolution of the current Internet}{section.2.1}% 4
+\BOOKMARK [2][-]{subsection.2.1.2}{Previous alternatives}{section.2.1}% 5
+\BOOKMARK [2][-]{subsection.2.1.3}{Shortcomings of the current Internet}{section.2.1}% 6
+\BOOKMARK [1][-]{section.2.2}{RINA alternative}{chapter.2}% 7
+\BOOKMARK [2][-]{subsection.2.2.1}{Research question}{section.2.2}% 8
+\BOOKMARK [2][-]{subsection.2.2.2}{RINA basics and origin}{section.2.2}% 9
+\BOOKMARK [2][-]{subsection.2.2.3}{IRATI implementation}{section.2.2}% 10
+\BOOKMARK [1][-]{section.2.3}{RINA on WiFi}{chapter.2}% 11
+\BOOKMARK [2][-]{subsection.2.3.1}{IEEE 802.11 Media Access Control}{section.2.3}% 12
+\BOOKMARK [2][-]{subsection.2.3.2}{Shim-DIF for wireless}{section.2.3}% 13
+\BOOKMARK [2][-]{subsection.2.3.3}{Android restrictions}{section.2.3}% 14
+\BOOKMARK [1][-]{section.2.4}{Conclusion and placement of the study in the thesis}{chapter.2}% 15
+\BOOKMARK [2][-]{subsection.2.4.1}{Conclusion literature study}{section.2.4}% 16
+\BOOKMARK [2][-]{subsection.2.4.2}{Placement of the literature study in the master thesis}{section.2.4}% 17
+\BOOKMARK [0][-]{chapter.3}{SHIM DIF for WiFi}{}% 18
+\BOOKMARK [1][-]{section.3.1}{Introduction}{chapter.3}% 19
+\BOOKMARK [1][-]{section.3.2}{Mapping of 802.11 MAC header}{chapter.3}% 20
+\BOOKMARK [1][-]{section.3.3}{Mapping of 802.2 LLC header}{chapter.3}% 21
+\BOOKMARK [2][-]{subsection.3.3.1}{SAP addressing}{section.3.3}% 22
+\BOOKMARK [2][-]{subsection.3.3.2}{DSAP address field}{section.3.3}% 23
+\BOOKMARK [2][-]{subsection.3.3.3}{SSAP address field}{section.3.3}% 24
+\BOOKMARK [1][-]{section.3.4}{Use of Address Resolution Protocol}{chapter.3}% 25
+\BOOKMARK [1][-]{section.3.5}{Service Definition}{chapter.3}% 26
+\BOOKMARK [2][-]{subsection.3.5.1}{QoS-cubes supported}{section.3.5}% 27
+\BOOKMARK [1][-]{section.3.6}{Configuration}{chapter.3}% 28
+\BOOKMARK [2][-]{subsection.3.6.1}{Shim IPC Process info}{section.3.6}% 29
+\BOOKMARK [2][-]{subsection.3.6.2}{Port-id to CEP-id directory}{section.3.6}% 30
+\BOOKMARK [2][-]{subsection.3.6.3}{Application to SAP mapping}{section.3.6}% 31
+\BOOKMARK [1][-]{section.3.7}{Bootstrapping}{chapter.3}% 32
+\BOOKMARK [1][-]{section.3.8}{Application \(un\)registration}{chapter.3}% 33
+\BOOKMARK [1][-]{section.3.9}{Enrollment}{chapter.3}% 34
+\BOOKMARK [1][-]{section.3.10}{WiFi Shim IPC Process Definition}{chapter.3}% 35
+\BOOKMARK [2][-]{subsection.3.10.1}{applicationRegister\(naming-info\).submit}{section.3.10}% 36
+\BOOKMARK [2][-]{subsection.3.10.2}{applicationUnregister\(naming-info\).submit}{section.3.10}% 37
+\BOOKMARK [2][-]{subsection.3.10.3}{allocateRequest\(naming-info\).submit}{section.3.10}% 38
+\BOOKMARK [2][-]{subsection.3.10.4}{allocateResponse\(reason\).submit}{section.3.10}% 39
+\BOOKMARK [2][-]{subsection.3.10.5}{arpMapping\(netaddr,hwaddr\).deliver}{section.3.10}% 40
+\BOOKMARK [2][-]{subsection.3.10.6}{sapMapping\(CEP-id,Port-id,Naming-info\).query}{section.3.10}% 41
+\BOOKMARK [2][-]{subsection.3.10.7}{sapMapping\(reason\).deliver}{section.3.10}% 42
+\BOOKMARK [2][-]{subsection.3.10.8}{Frame}{section.3.10}% 43
+\BOOKMARK [2][-]{subsection.3.10.9}{read.submit}{section.3.10}% 44
+\BOOKMARK [2][-]{subsection.3.10.10}{write.submit}{section.3.10}% 45
+\BOOKMARK [2][-]{subsection.3.10.11}{deallocate.submit}{section.3.10}% 46
+\BOOKMARK [2][-]{subsection.3.10.12}{Corresponding state diagram}{section.3.10}% 47
+\BOOKMARK [0][-]{chapter.4}{Implementation}{}% 48
+\BOOKMARK [1][-]{section.4.1}{Plan of action}{chapter.4}% 49
+\BOOKMARK [2][-]{subsection.4.1.1}{Introduction}{section.4.1}% 50
+\BOOKMARK [2][-]{subsection.4.1.2}{Procedure of implementation}{section.4.1}% 51
+\BOOKMARK [1][-]{section.4.2}{Proof of concept over WiFi}{chapter.4}% 52
+\BOOKMARK [2][-]{subsection.4.2.1}{Compiling a kernel}{section.4.2}% 53
+\BOOKMARK [2][-]{subsection.4.2.2}{Test bench irati}{section.4.2}% 54
+\BOOKMARK [2][-]{subsection.4.2.3}{Proof of concept over WiFi}{section.4.2}% 55
+\BOOKMARK [1][-]{section.4.3}{Android implementation}{chapter.4}% 56
+\BOOKMARK [2][-]{subsection.4.3.1}{Android kernel}{section.4.3}% 57
+\BOOKMARK [2][-]{subsection.4.3.2}{Android kernel with IRATI kernel code}{section.4.3}% 58
+\BOOKMARK [2][-]{subsection.4.3.3}{Android compilation with glibc and IRATI userspace}{section.4.3}% 59
+\BOOKMARK [2][-]{subsection.4.3.4}{Android specific implementation}{section.4.3}% 60
+\BOOKMARK [2][-]{subsection.4.3.5}{Alternative implementation possibilities}{section.4.3}% 61
+\BOOKMARK [0][-]{chapter.5}{Conclusion}{}% 62
+\BOOKMARK [1][-]{section.5.1}{Plan of operation}{chapter.5}% 63
+\BOOKMARK [1][-]{section.5.2}{Research question answer}{chapter.5}% 64
+\BOOKMARK [0][-]{chapter*.53}{Bibliography}{}% 65

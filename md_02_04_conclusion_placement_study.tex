@@ -1,0 +1,19 @@
+
+
+\section{Conclusion and placement of the study in the thesis}
+
+In the final segment of this literature study we will draw a conclusion and show where the literature study will fit in the master thesis. The relevance of this entire literature study will be shown throughout the rest of thesis. It might become obsolete or perspectives might change, but this is a needed study. The study provides a baseline on which the Master Thesis will build further. Several tests need to be conducted and code needs to be programmed, this means that the conclusion will be quite different. This also means that the literature study will be purely that and no conclusions will be drawn from only this aspect, the conclusions will be multi-faceted. 
+
+\subsection{Conclusion literature study}
+
+As we can see from the initial chapter the Internet is not perfect. It was built on a proof-of-concept with a very basic set of rigid protocols. This has lead to several disadvantages that currently require heaps of work for just temporarily repairs. For other issues we just require a plain new protocol to solve this issue. A clear answer is needed and this is what we present: Recursive InterNetworking Architecture, RINA. This new architecture requires quite a bit of initial work to set up a technical project to take over all the functions of the current Internet. After this initial work it will require minimal maintenance and prove to be very scalable in the long run. The main reason for this is the recursive function in the entire architecture.
+\npar
+RINA is an architecture that stands on one basic principle: networking is an InterProcess Communication (IPC) and IPC alone \citep{johnday2008}. This IPC is provides an IPC process. A group of these coherent processes (same layer) forms a Distributed IPC Facility (DIF) when these processes are enrolled. These DIFs stack recursively until the application on host A can communicate with the application on host B. Every one of these DIFs has a unique set of functions and operates in its own scope. 
+\npar
+This shows the way RINA functions, but since RINA is only a model we need a technical implementation. This implementation we will be using and supporting is the IRATI (Investigating RINA as Alternative to TCP/IP) project. This European project focuses on a technical implementation of RINA for UNIX-like operating systems. It already has a working Shim-DIF for Ethernet (802.1q). In this thesis we will try to port the IRATI stack to Android. Finally we will try to make a working Shim-DIF for WiFi on Android. 
+\npar
+Finally we take a closer look to the DIF that will be researched in this thesis. The Shim-DIF for wireless. This Shim-DIF will use the Ethernet MAC header as its main pillar and build further upon this. In research from this literature study we have concluded that 802.11 (WiFi) MAC headers are not available because drivers reform these to 802.3 headers. This means that the initial research question is altered in a manner that reflects these findings. To illustrate this with images: we initially started with image~\ref{fig:rinaoverwifi} and after this study we came to the conclusion that we will have to work on a model represented in image~\ref{fig:rinaoverwifi2}. When all the above questions have been answered and submitted, we can assume the research question (\ref{ssec:research_question}) has been solved.
+
+\subsection{Placement of the literature study in the master thesis}
+
+This literature study functions as a background study for the master thesis. In this study we have looked at the cause of the problem, clearly stated the research question, and finally we have provided adequate research to start the thesis. The background study and information has thus been provided to the researchers. This information shall be used to continue the thesis from this point on. Several research topics and points of importance have been pointed out in this study. 

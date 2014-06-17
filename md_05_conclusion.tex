@@ -1,0 +1,27 @@
+\chapter{Conclusion}
+
+%Conclusion of the master thesis, show followed path and give answer on the research question.
+
+The final chapter presents the conclusion of the Master's Thesis. Here we show the path of operation we took starting from our introduction, through the literature study with the research question. Following this we conclude the specification and the implementation and finally we answer the research question in the final section.
+
+\section{Plan of operation}
+
+%Explain what was done first, how it was done, what the initial research question was. After this explain how the literature study affected the research question. Finally show the taken path of action with the implementation.
+
+When we were originally presented with the Research question we were quite intrigued. A new architecture to replace the entire current Internet, that seemed like quite the task. Being part of this meant that we might be able to leave our mark on the pages of the Internet history. This is where we started this Master's Thesis, with the history of the Internet. It became quickly clear that the current version of the Internet had a lot of shortcomings, none of which could be addressed properly. A clear, new architecture was needed, RINA was born. Up until this point, RINA was purely theoretical, but still showed great promise. A recursive architecture which reimplemented the same structure(s) over and over again, only changing their policy and scope. While RINA was purely theoretical, the IRATI project aimed to make a technical implementation at the lowest possible level for RINA. 
+\npar
+This is where the Master's Thesis is slotted in. After the research question we could fully launch our literature and technology study. This quickly brought us to an important milestone. A part of the research question, the wireless part, was unavailable in its current implementation. We had to drop this part from our implementation, but as compensation we provided a specification. This specification provides enough information to the reader to implement a full wireless implementation of the IRATI code. We note that this implementation is in essence writing a driver for a network device. This was outside the scope of this Master's Thesis, thus we assumed the specification to be an adequate substitution for the lack of implementation over wireless medium. 
+\npar
+After providing the theoretical specification, we moved towards the implementation. Here we note that this implementation step was not initiated after the specification, but was already started during the preparation of the thesis. Initial base kernels were already constructed for both Linux and the Android devices (i9100 - Samsung Galaxy SII). Since the beginning we have be adding information to our knowledge pool and have been actively applying this knowledge to our practical implementation. However, we have to remark that even with the added knowledge the amount of obstacles that presented themselves for this implementation piled up as well. Not only was finding a groundwork kernel for the devices a fairly specific and difficult task, which only proved to be successful after adding several manual patches to the code. We note that after the basic kernel we encountered many more problems, which, given the timeframe were simply not solvable. While we encountered these problems in both userspace and kernelspace, we opted to look for alternatives that could provide some relief to the implementation of the code. After careful research we have come to the conclusion that even these alternatives prove extremely difficult to implement given the current timespan of the thesis.
+
+\section{Research question answer}
+
+%Give an answer on the research question.
+
+The research question states: \\
+\begin{highlight}How to run RINA on Android over WiFi?\end{highlight}
+
+\npar
+
+We have to conclude that with the current implementation we are not able to run RINA on Android over WiFi. With the current Linux, and Linux-like, kernel the part about WiFi becomes irrelevant because the user is locked out of this process. A theoretical specification has been provided to answer the WiFi section. Furthermore have we shown extended research and implementation processes towards the Android part of the research question. However due to several, time-consuming difficulties, the implementation has proven to be a insufficient. The biggest issue we have here is a time issue. Given more time with added manpower and supplemented with additional knowledge, this implementation is feasible. Further research is required to acquire a working implementation of RINA on Android. 
+

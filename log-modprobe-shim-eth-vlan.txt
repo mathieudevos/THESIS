@@ -1,0 +1,99 @@
+[17705.549346] rina-personality-default: Rina default personality loading
+[17705.549350] rina-personality-default: Finally registering personality
+[17705.549351] rina-personality: Checking name
+[17705.549352] rina-personality: Name is ok
+[17705.549354] rina-personality: Checking ops ffffffffa04f7040
+[17705.549356] rina-personality: Ops are ok
+[17705.549357] rina-personality: Registering personality 'default'
+[17705.549454] rina-personality: Calling personality 'default' initializer
+[17705.549455] rina-personality-default: Initializing default personality
+[17705.549456] rina-personality-default: Initializing RNL
+[17705.549473] rina-rnl: Set ffff8800060cdf10 created successfully
+[17705.549475] rina-personality-default: Initializing KIPCM
+[17705.549476] rina-kipcm: Initializing
+[17705.549491] rina-ipcp-factories: Initializing layer
+[17705.549690] rina-ipcp-factories: Layer initialized successfully
+[17705.549785] rina-pidm: Instance initialized successfully (2048 bits)
+[17705.549802] rina-rnl: Set ffff8800060cdf10 registered
+[17705.549805] rina-rnl: Registering handler callback ffffffffa04ec7b0 and data ffff880007611a80 for message type 1
+[17705.549806] rina-rnl: Handler ffffffffa04ec7b0 (data ffff880007611a80) registered for message type 1
+[17705.549808] rina-rnl: Registering handler callback ffffffffa04ed420 and data ffff880007611a80 for message type 3
+[17705.549810] rina-rnl: Handler ffffffffa04ed420 (data ffff880007611a80) registered for message type 3
+[17705.549811] rina-rnl: Registering handler callback ffffffffa04ecfb0 and data ffff880007611a80 for message type 11
+[17705.549813] rina-rnl: Handler ffffffffa04ecfb0 (data ffff880007611a80) registered for message type 11
+[17705.549815] rina-rnl: Registering handler callback ffffffffa04ec520 and data ffff880007611a80 for message type 14
+[17705.549816] rina-rnl: Handler ffffffffa04ec520 (data ffff880007611a80) registered for message type 14
+[17705.549818] rina-rnl: Registering handler callback ffffffffa04ed590 and data ffff880007611a80 for message type 15
+[17705.549820] rina-rnl: Handler ffffffffa04ed590 (data ffff880007611a80) registered for message type 15
+[17705.549821] rina-rnl: Registering handler callback ffffffffa04ed290 and data ffff880007611a80 for message type 18
+[17705.549823] rina-rnl: Handler ffffffffa04ed290 (data ffff880007611a80) registered for message type 18
+[17705.549825] rina-rnl: Registering handler callback ffffffffa04edda0 and data ffff880007611a80 for message type 20
+[17705.549826] rina-rnl: Handler ffffffffa04edda0 (data ffff880007611a80) registered for message type 20
+[17705.549828] rina-rnl: Registering handler callback ffffffffa04ec1b0 and data ffff880007611a80 for message type 24
+[17705.549830] rina-rnl: Handler ffffffffa04ec1b0 (data ffff880007611a80) registered for message type 24
+[17705.549831] rina-rnl: Registering handler callback ffffffffa04ec370 and data ffff880007611a80 for message type 25
+[17705.549833] rina-rnl: Handler ffffffffa04ec370 (data ffff880007611a80) registered for message type 25
+[17705.549835] rina-rnl: Registering handler callback ffffffffa04ec4e0 and data ffff880007611a80 for message type 28
+[17705.549836] rina-rnl: Handler ffffffffa04ec4e0 (data ffff880007611a80) registered for message type 28
+[17705.549838] rina-rnl: Registering handler callback ffffffffa04edbf0 and data ffff880007611a80 for message type 29
+[17705.549840] rina-rnl: Handler ffffffffa04edbf0 (data ffff880007611a80) registered for message type 29
+[17705.549841] rina-rnl: Registering handler callback ffffffffa04ed6e0 and data ffff880007611a80 for message type 31
+[17705.549843] rina-rnl: Handler ffffffffa04ed6e0 (data ffff880007611a80) registered for message type 31
+[17705.549844] rina-rnl: Registering handler callback ffffffffa04ed900 and data ffff880007611a80 for message type 33
+[17705.549846] rina-rnl: Handler ffffffffa04ed900 (data ffff880007611a80) registered for message type 33
+[17705.549848] rina-rnl: Registering handler callback ffffffffa04edab0 and data ffff880007611a80 for message type 35
+[17705.549849] rina-rnl: Handler ffffffffa04edab0 (data ffff880007611a80) registered for message type 35
+[17705.549851] rina-kipcm: NL handlers registered successfully
+[17705.549852] rina-kipcm: Initialized successfully
+[17705.549853] rina-personality-default: Default personality initialized successfully
+[17705.549854] rina-personality: Personality 'default' initialized successfully
+[17705.549855] rina-personality: Default personality set to 'default'
+[17705.549857] rina-personality: Personality 'default' registered successfully
+[17705.549858] rina-personality-default: Rina default personality loaded successfully
+[17705.599776] rina-arp826-core: Initializing
+[17705.599780] rina-arp826-tables: Initializing
+[17705.599796] rina-arp826-tables: Initialized successfully
+[17705.599797] rina-arp826-arm: Initializing
+[17705.600240] rina-rwq: Workqueue 'arp826-wq' (ffff880137201d88) created successfully
+[17705.600242] rina-arp826-arm: Initialized successfully
+[17705.600244] rina-arp826-core: Adding protocol (device = ffff8800b946b3e0, ptype = 0xD1F0, hlen = 6)
+[17705.600246] rina-arp826-tables: Creating table for ptype = 0xD1F0, hwlen = 6
+[17705.600247] rina-arp826-tables: Creating tbl instance for ha-len 6
+[17705.600262] rina-arp826-tables: Got memory, fillin' it up
+[17705.600263] rina-arp826-tables: Table instance created successfully
+[17705.600264] rina-arp826-tables: Now adding the new table to the tables map
+[17705.600279] rina-arp826-tables: Table for created successfully (device = ffff8800b946b3e0, ptype = 0xD1F0, hwlen = 6)
+[17705.600281] rina-arp826-core: Protocol added successfully (device = ffff8800b946b3e0, ptype = 0xD1F0, hlen = 6)
+[17705.600283] rina-arp826-core: Adding protocol (device = ffff880132658000, ptype = 0xD1F0, hlen = 6)
+[17705.600284] rina-arp826-tables: Creating table for ptype = 0xD1F0, hwlen = 6
+[17705.600286] rina-arp826-tables: Creating tbl instance for ha-len 6
+[17705.600299] rina-arp826-tables: Got memory, fillin' it up
+[17705.600301] rina-arp826-tables: Table instance created successfully
+[17705.600302] rina-arp826-tables: Now adding the new table to the tables map
+[17705.600316] rina-arp826-tables: Table for created successfully (device = ffff880132658000, ptype = 0xD1F0, hwlen = 6)
+[17705.600318] rina-arp826-core: Protocol added successfully (device = ffff880132658000, ptype = 0xD1F0, hlen = 6)
+[17705.600320] rina-arp826-core: Adding protocol (device = ffff8800a88f0000, ptype = 0xD1F0, hlen = 6)
+[17705.600321] rina-arp826-tables: Creating table for ptype = 0xD1F0, hwlen = 6
+[17705.600322] rina-arp826-tables: Creating tbl instance for ha-len 6
+[17705.600337] rina-arp826-tables: Got memory, fillin' it up
+[17705.600338] rina-arp826-tables: Table instance created successfully
+[17705.600340] rina-arp826-tables: Now adding the new table to the tables map
+[17705.600354] rina-arp826-tables: Table for created successfully (device = ffff8800a88f0000, ptype = 0xD1F0, hwlen = 6)
+[17705.600356] rina-arp826-core: Protocol added successfully (device = ffff8800a88f0000, ptype = 0xD1F0, hlen = 6)
+[17705.600358] rina-arp826-core: Adding protocol (device = ffff88002f39e7c0, ptype = 0xD1F0, hlen = 6)
+[17705.600359] rina-arp826-tables: Creating table for ptype = 0xD1F0, hwlen = 6
+[17705.600361] rina-arp826-tables: Creating tbl instance for ha-len 6
+[17705.600374] rina-arp826-tables: Got memory, fillin' it up
+[17705.600375] rina-arp826-tables: Table instance created successfully
+[17705.600376] rina-arp826-tables: Now adding the new table to the tables map
+[17705.600391] rina-arp826-tables: Table for created successfully (device = ffff88002f39e7c0, ptype = 0xD1F0, hwlen = 6)
+[17705.600392] rina-arp826-core: Protocol added successfully (device = ffff88002f39e7c0, ptype = 0xD1F0, hlen = 6)
+[17705.600394] rina-arp826-core: Initialized successfully
+[17705.641589] rina-kipcm: KIPCM instance ffff880007611a80 locking ...
+[17705.641593] rina-kipcm: KIPCM instance ffff880007611a80 locked
+[17705.641595] rina-ipcp-factories: Registering new factory
+[17705.641597] rina-ipcp-factories: Registering factory 'shim-eth-vlan'
+[17705.641694] rina-shim-eth-vlan: shim-eth-vlan initialized
+[17705.641696] rina-ipcp-factories: Factory 'shim-eth-vlan' registered successfully
+[17705.641697] rina-kipcm: KIPCM instance ffff880007611a80 unlocking ...
+[17705.641699] rina-kipcm: KIPCM instance ffff880007611a80 unlocked
