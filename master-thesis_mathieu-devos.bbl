@@ -11,6 +11,12 @@ Berners-Lee, T. (2000).
   World Wide Web}.
 \newblock HarperBusiness.
 
+\bibitem[\protect\astroncite{computerhistory.com}{2014}]{website:computerhistory}
+computerhistory.com (2014).
+\newblock Computer history museum.
+\newblock
+  \url{http://www.computerhistory.org/internet_history/internet_history_70s.html}.
+
 \bibitem[\protect\astroncite{Contributers}{2013}]{github:bionic}
 Contributers (2013).
 \newblock The gnu c library.
@@ -68,8 +74,13 @@ internetsociety.org (2014).
 \newblock
   \url{http://www.internetsociety.org/internet/what-internet/history-internet/brief-history-internet}.
 
-\bibitem[\protect\astroncite{irati.eu}{2013}]{website:IRATI-obj}
-irati.eu (2013).
+\bibitem[\protect\astroncite{irati.eu}{2013a}]{website:irati}
+irati.eu (2013a).
+\newblock The recursive internetwork architecture.
+\newblock \url{http://irati.eu/the-recursive-internetwork-architecture/}.
+
+\bibitem[\protect\astroncite{irati.eu}{2013b}]{website:IRATI-obj}
+irati.eu (2013b).
 \newblock The recursive internetwork architecture objectives.
 \newblock \url{http://irati.eu/goals/}.
 
@@ -99,12 +110,6 @@ Salus, P.~H. (2008).
 \newblock {\em The ARPANET Sourcebook: The Unpublished Foundations of the
   Internet (Computer Classics Revisited)}.
 \newblock Peer-to-Peer Communications Inc.
-
-\bibitem[\protect\astroncite{Staessens}{2014}]{pwp:rinaintro}
-Staessens, D. (2014).
-\newblock Clean slate network architectures - are there new ways for
-  networking?
-\newblock iMinds JRA1 workshop.
 
 \bibitem[\protect\astroncite{Stultz}{2011}]{presentation:android_linux_kernel}
 Stultz, J. (2011).

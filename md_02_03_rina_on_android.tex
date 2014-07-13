@@ -1,10 +1,10 @@
-\section{RINA on WiFi}
+\section{RINA over WiFi}
 
 Following the introduction to the RINA alternative in section~\ref{sec:RINAalternative} we will now take a closer look to RINA over WiFi on Android. What the exact needs are for this implementation and where special focus will be needed. We kick this section off with a piece about IEEE 802.11 MAC protocol. Followed by the WiFi Shim-DIF. Finally we will take a closer look at the Android restrictions (compared to Linux).
 
 \subsection{IEEE 802.11 Media Access Control}
 
-In this subsection we will address the WiFi MAC\footnote{802.11 Media Access Control} \citep{matthewgast2005}. Since the protocol covers both layer 1 (physical layer) and a part of layer 2 (Media Access Control) we will limit ourselves here to the layer 2 interaction. The IRATI project code will have to fit seamless on this protocol to ensure maximal optimization for wireless communication. In this light we must instantly make an important remark. In normal operation mode the device drivers for user devices will be set to \emph{STA} mode (Station infrastructure mode). This enables basic device functions, however two devices in STA mode will not be able to communicate with each other unless an Access Point (AP) is presented to communicate with. As can been seen in figure~\ref{fig:80211inframode}.
+In this subsection we will address the WiFi MAC\footnote{802.11 Media Access Control} \citep{matthewgast2005}. Since the 802.11 protocols covers both layer 1 (physical layer) and a part of layer 2 (Media Access Control) we will limit ourselves here to the layer 2 interaction. The IRATI project code will have to fit seamless on this protocol to ensure maximal optimization for wireless communication. In normal operation mode the device drivers for user devices will be set to \emph{STA} mode (Station infrastructure mode). This enables basic device functions, however two devices in STA mode will not be able to communicate with each other unless an Access Point (AP) is presented to communicate with. As can been seen in figure~\ref{fig:80211inframode}.
 
 \begin{figure}[H]
     \centering
@@ -40,7 +40,7 @@ For the initial part of this thesis we will leave the device in either STA or IB
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/80211vs8021q}
+    \includegraphics[width=0.9\textwidth]{figures/80211vs8021q}
     \caption{802.11 and 802.1Q MAC headers} 
     \label{fig:80211vs8021q}
 \end{figure}
@@ -49,10 +49,50 @@ For the initial part of this thesis we will leave the device in either STA or IB
 
 Since WiFi MAC headers (802.11 MAC) have quite a lot more functions (30 bytes compared to 802.1Q's 18 bytes) we will have to adjust the code for this. The functions that are added can potentially prove useful for the architecture and thus further study should be implemented. This research will focus on the overlap of functions between the MAC header and the functions provided by the IPC API. It can ultimately prove advantageous to use the full WiFI header alongside with RINA instead of having drivers reform this header to a more easy to comprehend Ethernet MAC header. 
 
+\subsection{IEEE 802.2 LLC}
+
+Since the WiFi protocol consists of 3 different layers, we require research to each of these. In the table below the WiFi protocol is further explained in its different protocol parts.
+
+\begin{table}[H]
+		\begin{center}
+		\begin{tabular}{|lc|}
+			\hline
+				802.2 & LLC		\\ \hline
+				802.11 & MAC		\\ \hline
+				802.11 & PHY		\\
+			\hline
+		\end{tabular}
+		\caption{Overview of WiFi protocol parts}
+		\end{center}
+\end{table}
+
+As stated in the previous subsection we do not cover the 802.11 Physical protocol as this is outside the scope of this thesis. The LLC header does over some interesting aspects. While it is a quite old protocol \citep{ieee8022std}, it might still have its uses. A typical LLC header is represented in the table below. 
+
+\begin{table}[H]
+		\begin{center}
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+				\textbf{DSAP address} & \textbf{SSAP address} & \textbf{Control} & \textbf{Information} \\ \hline
+				8 bits & 8 bits & 8 or 16 bits & M*8 bits \\ 
+			\hline
+		\end{tabular}
+		\caption{802.2 LLC PDU format}
+		\end{center}
+\end{table}
+
+A LLC frame has a source address and a destination address. In the current version of the Internet it acts as an interface which situates itself between the Data link layer and the Network layer. It was originally designed to provide flow control and error management. However, given the age of the protocol, these functions are now almost exclusively done by Transport layer protocols. While always attached to WiFi protocol, it is almost never used in today's networking environment. Error management and flow control are handled by 802.11 MAC protocols and LLC is simply added on top of this. LLC provides 3 types of operation:
+
+\begin{description}
+	\item[Type 1 Operation] The simpelest operation. The protocol only uses the source and destination service access point (SSAP and DSAP). These addresses are used to indicate which type of packet the header is transporting.
+	\item[Type 2 Operation] This operation mode builds further upon Type 1 operation. Each SAP has 2 possible states and when both are in Operation mode, communication can be provided between these SAPs. Type 2 Operation also requires ACKing of every packet. However, the ACKing done through means of numbering each packet, with a maximum of 128 possibilities. A very low number considering current high bandwidth communication links. 
+	\item[Type 3 Operation] A combination of the modi aforementioned. This operation mode requires ACKing, similar to type 2, but provides no state vectors for the SAPs.
+\end{description}
+
+The conclusion about this protocol is fairly simple: it is old and provides very little use for the WiFi protocol. It might offer some functionality for the RINA specification over WiFi in the next chapter. 
 
 \subsection{Shim-DIF for wireless}
 
-While under normal operation of the research question we delve further into the Shim-DIF over WiFi (see figure~\ref{fig:rinaoverwifi}). However, due to reasons stated in the previous segment we clearly see that this has now been reformed to:
+While under normal operation of the research question we delve further into the Shim-DIF over WiFi (see figure~\ref{fig:rinaoverwifi}). However, after research (see Appendix~\ref{chap:app-a}), we see that WiFi frames are reconstructed to Ethernet frames before they are passed to the kernel. 
 
 \begin{figure}[H]
     \centering
@@ -65,8 +105,9 @@ While under normal operation of the research question we delve further into the 
 In normal conditions this means we can fully copy the code from IRATI, we must remind ourselves that we are still working on another Operating System and this comes with consequences. These are handled in the next component. We will take a closer look at the WiFi packets and provide a Shim-DIF for the WiFi standard. This provides a base for other developers who wish to update drivers further down to road to make said drivers compatible with RINA. 
 
 \subsection{Android restrictions}
+\label{ssec:android-restrictions}
 
-While Android is a UNIX-like operating system and based on Linux, it does come with some restrictions. In this subdivision we will be comparing Android OS to the Linux OS. The reason for this is that the IRATI project already has a working RINA implementation on Linux and this will be used for the further work of this thesis. Secondly because Android is based on Linux operating system and its kernel. At one point in history the two operating systems shared a common kernel and while this common component is planned, it is currently not the same kernel. 
+While Android is a UNIX-like operating system and based on Linux, it does come with some restrictions. In this subdivision we will be comparing Android OS to the Linux OS. The reason for this is that the IRATI project already has a working RINA implementation on Linux and this will be used for the further work of this thesis. Secondly, because Android is based on Linux operating system and its kernel. At one point in history the two operating systems shared a common kernel and while this common component is planned, it is currently not the same kernel. 
 \npar
 Before we can further inspect the Android operating system, compared to Linux OS, we first need to identify the differences between the \emph{Android kernel} and \emph{Linux kernel}. For most of this information we will be using a talk by John Stultz, comparing Android to a stock Linux kernel \citep{presentation:android_linux_kernel,website:android_linux_kernel}. The amount of changes is not that large as it comprises of around 25 000 lines of changes, compared to the entire 15 millions lines of code for the full kernel. This places the changes around \textasciitilde0.2\% of the total code. Of course some of these changes can have large impacts on the actual kernel itself. These changes will be discussed here. Some of the items in the Android patches include:
 \begin{itemize}
@@ -81,12 +122,14 @@ Before we can further inspect the Android operating system, compared to Linux OS
 \end{itemize}
 Because a Linux kernel is meant for desktop and server hardware (both very similar), Android aims to improve in the hardware department. This allows the use of more and varied hardware through its kernel. A second large point of interest for Android is the power management. While traditional systems are just plugged in with the cable and thus don't need to worry as much about power. The opposite is true for mobile, battery powered devices where power management is of utmost importance. Another change between the two kernels is the way error reporting is done and the attempt to increase security on the Android kernel. Finally the Android kernel aims to improve performance, especially for its intended users, mobile platforms.
 \\
-Some of these changes to the original kernel have been talked about quite a bit, such as the wakelocks. However we find that these changes will not impact the current implementation of the IRATI stack into Android. Further down the road additional optimization can be acquired between the Android kernel and the IRATI stack. Also RINA will have to be able to work with Paranoid Networking so that networking does not become blocked by this feature in Android kernels. For this part further research will be conducted. 
+Some of these changes to the original kernel have been talked about quite a bit, such as the wakelocks. However we find that these changes will not impact the current implementation of the IRATI stack into Android. Further down the road additional optimization can be acquired between the Android kernel and the IRATI stack. 
 \npar
-As shown above, the current version (and future versions) of the Android kernel will not pose any problems for the IRATI stack. However, an operating system does not only comprise of its kernel. This is an important part and the aspect where we see the biggest change between Linux and Android. When looking at a structured overview of an operating system (UNIX-like), we see that libraries play a big part in the undertaking of an operating system. Here we find the biggest change between Android and Linux. While Linux uses glibc \citep{website:glibc} and Android uses the Bionic library \citep{github:bionic,website:c_lib_bionic}. 
+Android kernels are very specific to the target devices. This adds an increase in difficulty when trying to implement a general code, which RINA's technical implementation aims to provide. Since the devices are small, CPU speeds are low, RAM and storage are limited, these kernels are reduced to the bare minimum. Because of this it is fairly difficult to clone one kernel to another device. The drivers are specifically selected for that device and might simply be replaced by other hardware on the second device. This is an issue that we will have to consider during the implementation phase of this thesis. Working with the bare minimum of a kernel means that dependecies might not be met when adding new code to this kernel. Finally we see that the version of these Android kernels is quite far behind the most recent Linux kernels. While the most recent Linux kernels (at the time of writing) are 3.16.x, our test device's most recent kernel is 3.0.101. More recent devices have kernel versions as high as: 3.4.x.
 \npar
-The restrictions from the Bionic library that affect the inclusion of the IRATI stack on Android are mostly limited to the \cpp language. The way Bionic handles \cpp is quite unique as it aims to alter the use of \cpp as a whole. This issue here is the following: IRATI stack is build on \cpp. For the most part \cpp is still supported by the library, but it does come with some restrictions. Before we inspect those restrictions we must first look at the reason why the glibc was not used in the first place. This can be declared very fast and accurate. Glibc is a \emph{slow} and \emph{huge} library. While this is not an issue for systems that run on Linux (desktops, servers, \ldots) it does form a problem for small-scale mobile platforms. Another issue with glibc is that it falls under GPL (GNU General Public License) and the smaller version, uClibC falls under LGPL (Lesser GNU General Public License). This implies that everything that uses these libraries also falls under these licenses, something Google was looking to avoid. Hence the option to use a new library, Bionic, which uses as BSD license and thus can shield its applications from the GPL and LGPL licenses. Finally we must note that glibc is quite large and meant for high frequency processors, where bionic is a lot smaller and works very fast, even without high speed processors\footnote{High frequency CPUs are becoming available for mobile platforms at this very moment}.
+As shown above, the current version (and future versions) of the Android kernel might pose problems for the IRATI prototype. In addition to this, an operating system does not only comprise of its kernel. This is an important part and the aspect where we see the biggest change between Linux and Android. When looking at a structured overview of an operating system (UNIX-like), we see that libraries play a big part in the undertaking of an operating system. Here we find the biggest change between Android and Linux. Linux uses glibc \citep{website:glibc} and Android uses the Bionic library \citep{github:bionic,website:c_lib_bionic}. 
+\npar
+The restrictions from the Bionic library that affect the inclusion of the IRATI stack on Android are mostly limited to the \cpp language. The way Bionic handles \cpp is quite unique as it aims to alter the use of \cpp as a whole. This issue here is the following: IRATI stack is build on \cpp. For the most part \cpp is still supported by the library, but it does come with some restrictions. Before we inspect those restrictions we must first look at the reason why the glibc was not used in the first place. This can be declared very fast and accurate. Glibc is a \emph{slow} and \emph{huge} library. While this is not an issue for systems that run on Linux (desktops, servers, \ldots) it does form a problem for small-scale mobile platforms. Another issue with glibc is that it falls under GPL (GNU General Public License) and the smaller version, uClibC falls under LGPL (Lesser GNU General Public License). This implies that everything that uses these libraries also falls under these licenses, something Google was looking to avoid. Hence the option to use a new library, Bionic, which uses BSD license and thus can shield its applications from the GPL and LGPL licenses. Finally we must note that glibc is quite large and meant for high frequency processors, where bionic is a lot smaller and works very fast, even without high speed processors\footnote{High frequency CPUs are becoming available for mobile platforms at this very moment}.
 \npar
 Because the \cpp restrictions of the Bionic library are of utmost importance to this IRATI project inclusion we will now take a closer look at these restrictions. The most profound and important restriction is the lack of support for \cpp exceptions. Google engineers deemed these exceptions bloated and largely impractical for use thus the support for this was entirely cut. When people still want to use exceptions they are advised to try another library, add a library that does support these or switch to Java programming language in the userspace. This is an important change as the current IRATI project does use \cpp exceptions and thus the code will need to be retailored to fit seamless on the Android platform. Another option is to try and implement changes on Android so that the current IRATI project can be ported over. Secondly, Bionic does not contain a \cpp Standard Template Library. This is for obvious reasons to try and keep Bionic as small as possible. When applications wish to use a \cpp STL they will have to include one with the application or acquire it beforehand. Other changes bionic made can be viewed at Pthreads. These are threads that are standardized and should be compatible cross-platform. Some changes bionic made to these threads include: cancellation, pthread\_once(), pthread\_atfork(). Here it is recommended that when these functions are used in the original code, to revise the code and work around these changes. The changes are in place again to reduce the bloated code in glibc and endorse optimized coding. The final changes that bionic implements are the lack of support for wide and locale characters and some user-account-related functions. 
-\npar
-Finally we see that the biggest restrictions on Android come from the use of the Bionic library. This library limits some uses of \cpp and requires a bypass from the original application. We note that the IRATI project is written partially in \cpp and uses exceptions. This will require a workaround on either the operating system side or on the IRATI project. How this will be handled is one of the major questions in this thesis. 
+%\npar
+%Finally we see that the biggest restrictions on Android come from the use of the Bionic library. This library limits some uses of \cpp and requires a bypass from the original application. We note that the IRATI project is written partially in \cpp and uses exceptions. This will require a workaround on either the operating system side or on the IRATI project. How this will be handled is one of the major questions in this thesis. 

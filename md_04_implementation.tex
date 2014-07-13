@@ -1,6 +1,6 @@
 \chapter{Implementation}
 
-Ensuing the chapter about the specification over WiFi, we will now address the implementation of the current project. This chapter has been divided in 3 sections, each containing a number of subsections. We initiate with the plan of action which clearly states the trajectory this implementation will follow. Secondly we focus on the implementation of a proof of concept over WiFi. Finally we approach the subject of the Android implementation. 
+Ensuing the chapter about the specification over WiFi, we will now address the implementation of the prototype. This chapter has been divided in 3 sections, each containing a number of subsections. We initiate with the plan of action which clearly states the trajectory this implementation will follow. Secondly we focus on the implementation of a Shim DIF prototype over WiFi. Finally we approach the subject of the Android implementation. 
 
 \section{Plan of action}
 
@@ -39,7 +39,7 @@ The section initiates with an explanation on kernel compilation, where we briefl
 
 
 \npar
-After we have implemented a working RINA on pure linux machines, we initialize the process again on Android. We first note that also in Android the WiFi frames are transformed to Ethernet frames and only after this has been handled does the kernel acquire control over these Ethernet frames. Specifically this means that once the kernel has been sufficiently modified for functionality on Android, that the wireless part is in essence the same as on pure linux computers. 
+After we have implemented a working RINA on pure linux machines, we initialize the process again on Android. We first note that also in Android the WiFi frames are transformed to Ethernet frames and only after this has been handled the user can use these frames. Specifically this means that once the kernel has been sufficiently modified for functionality on Android, that the wireless part is in essence the same as on pure linux computers. 
 \\
 Initially we explain how to build a basic android kernel and the differences to building a pure linux kernel. Secondly we explain how the IRATI-specific kernel parts are added to this base Android kernel. After this step we move towards adding the userspace implementation of the IRATI project. Because of previously mentioned limitation we require certain libraries so the addition of  glibc or a similar library will be required. Following this, we explain how the required userspace packages are added and how the userspace is configured. Once we are able to insert the modules and turn on the ipcmanager we can call this implementation a success. For the final part we explain the changes required to move from this basic Android kernel to a device specific kernel and run the echo experiment on the two test devices. 
 \npar
@@ -62,7 +62,7 @@ The first step of the implementation is building a base kernel. For this step we
 	\item \ldots
 \end{itemize}
 
-We choose the most recent kernel version which can be found at \url{http://www.kernel.org}. After downloading and extracting this kernel we acquire all the needed packages to build this kernel. For a basic Linux kernel, these include:
+We choose the most recent kernel version which can be found at \url{http://www.kernel.org}. After downloading and extracting this kernel we acquire all the needed packages to build this kernel. For a Debian based system, these include:
 
 \begin{itemize}
 	\item kernel-package
@@ -73,14 +73,14 @@ We choose the most recent kernel version which can be found at \url{http://www.k
 	\item bc
 \end{itemize}
 
-After acquiring these packages one can follow a few simple steps, set up the configuration file and have the kernel built. Consequently you can install the kernel next to the current one and select which kernel you prefer on boot. This has several advantages which include always have a stable base kernel to fall back upon. It also allows the addition of new code to the kernel in several, testable stages. 
+These packages are Debian specific, but a quick online search should state which packages are required for the specific Linux system. After acquiring these packages one can follow a few simple steps, set up the configuration file and have the kernel built. Consequently you can install the kernel next to the current one and select which kernel you prefer on boot. This has several advantages which include always have a stable base kernel to fall back upon. It also allows the addition of new code to the kernel in several, testable stages. Further information on how to build kernels can be found in Appendix B~\ref{chap:app-b}.
 
 \subsection{Test bench irati}
 \label{ssec:test-bench-irati}
 
 %Current irati implementation, what the differences are with a stock kernel and what exactly modules are. Finally show the code to run the test.
 
-The current IRATI implementation consists of a modified Linux Kernel and some additions to the Userspace which are closely linked to the Kernel. The modifications to the kernel are mostly additions to the \emph{net} section of the kernel. This is in essence the RINA implementation. Because this implementation is currently over 802.1Q we also need to add the VLAN option in the configuration file. After adding these kernel files and selecting their options in the config file we can build the kernel in the same manner as in the previous subsection. Finally we are also required to add the wireless drivers for to this kernel. For this we first find out which WiFi device our hardware has by running a simple \emph{lpci} command. A quick Google search gives us the needed kernel drivers and these options are selected in the configuration file. 
+The current IRATI implementation consists of a Linux Kernel with RINA added in kernelspace and some additions to the Userspace which are closely linked to the Kernel. The modifications to the kernel are mostly additions to the \emph{net} section of the kernel. This is in essence the RINA implementation. Because this implementation is the Shim DIF over 802.1Q we also need to add the VLAN option in the configuration file. After adding these kernel files and selecting their options in the config file we can build the kernel in the same manner as in the previous subsection. Finally we are also required to add the wireless drivers for to this kernel. For this we first find out which WiFi device our hardware has by running a simple \emph{lpci} command. A quick Google search gives us the needed kernel drivers and these options are selected in the configuration file. 
 \\
 The files needed to for this kernel are provided in addendum on physical storage alongside this thesis. However for optimal results we recommend acquiring the most recent files directly from the source. For general kernel files this is \url{www.kernel.org} and for the irati project this is \url{www.irati.eu}. 
 \npar
@@ -97,21 +97,21 @@ The userspace part requires some added specific packages before it can be built 
 	\item swig ($>$2.0.8)
 \end{itemize}
 
-Because this code is still very sensitive to changes we refer to the IRATI project again for the most recent requirements. In its current form is this code specific to the Debian Wheezy Linux operating system. After acquisition of the these packages we can run the commands to install this userspace section. 
+The packages are again Debian specific and the correct packages should be acquired for the relevant Linux system. Because this code is still very sensitive to changes we refer to the IRATI project again for the most recent requirements. After acquisition of the these packages we can run the commands to install this userspace section. 
 \npar
 Initial test for this are run on 2 32-bit Debian Wheezy virtual machines. After we install both the correct kernel and add the IRATI userspace implementations to that, we set up the network between the two virtual machines. For this we add a virtual Ethernet device to both virtual machines and put them both in the same virtual network. As an additional test we also supply them with IP addresses which allows us to test basic ping commands to be sure that the machines can reach each other. While it is not necessary for RINA, it adds an extra check to confirm the connection between the network devices of the virtual machines. 
 \npar
-Following the setup of the network devices we insert the Loadable Kernel Module (LKM), \emph{802.1q}. This can be done when the system is booting or when the user requires it. When this module is up we can create a new network between the denies with a virtual tag (number). This tag acts as the DIF name for the Shim DIF. Once the link has been set up between the two devices, we initiate the RINA aspects of the test. We insert \emph{shim-eth-vlan} and \emph{ipcp-normal}. If these modules are activated properly, which can be checked in the log file of the kernel, we can move to the next step. This step involves running the ipcmanager, which is located in the userspace folder. Once this us brought up successfully on both devices, we can start communication between these machines. For testing purposes we use a simple echo-server on one machine and an echo-client on the other. This lets us test the communication between the two machines. 
+Following the setup of the network devices we insert the Loadable Kernel Module (LKM), \emph{802.1q}. This can be done when the system is booting or when the user requires it. When this module is up we can create a new network between the devices with a virtual tag (number). This tag acts as the DIF name for the Shim DIF. Once the link has been set up between the two devices, we initiate the RINA aspects of the test. We insert \emph{shim-eth-vlan} and \emph{normal-ipcp}. If these modules are activated properly, which can be checked in the log file of the kernel, we can move to the next step. This step involves running the ipcmanager, which is located in the userspace folder. Once this us brought up successfully on both devices, we can start communication between these machines. For testing purposes we use a simple echo-server on one machine and an echo-client on the other. This lets us test the communication between the two machines. 
 
 \subsection{Proof of concept over WiFi}
 
 %Show how to add WiFi devices to a virtual machine and use those to test the irati stack over WiFi, if only bridging can work and no internal virtual wifi network can be set up (can this be done easily?) just run two linux notebooks with fresh kernel + irati.
 
-Finally we implement the proof of concept over WiFi. For this we need to note that in Linux and Linux related kernels, WiFi frames are reconstructed to Ethernet headers. This is done by the drivers, either accomplished in hardware (hardmac) or by software (softmac). Once these frames have been transformed they are presented to the kernel. The kernel has in essence no knowledge that these frames are WiFi frames. In our proof of concept this can be seen as an advantage because we can reuse the IRATI code and create a virtual interface (802.1Q) that is directly linked to the WiFi device. Normally the wireless device is called \emph{wlan0}, this makes the virtual device then: \emph{wlan0.number}, where the number is the VLAN tag. This VLAN tag is the Shim DIF name.
+Finally we implement the proof of concept over WiFi. For this we need to note that in Linux and Linux-like kernels, WiFi frames are reconstructed to Ethernet headers. This is done by the drivers, either accomplished in hardware (hardmac) or by software (softmac). Once these frames have been transformed they are presented to the kernel. The kernel has in essence no knowledge that these frames are WiFi frames. In our proof of concept this can be seen as an advantage because we can reuse the IRATI code and create a virtual interface (802.1Q) that is directly linked to the WiFi device. Normally the wireless device is called \emph{wlan0}, after the creation of the virtual device we simply add a virtual device: \emph{wlan0.number}, where the number is the VLAN tag. This VLAN tag is the Shim DIF name.
 \npar
 The setup for the proof of concept over WiFi is fairly similar to the one with the virtual machines. However for this we add the wireless device drivers in the kernel and use two physical devices. The reason we use physical devices is because virtual machines cannot have virtual wifi devices. The reason for this is that virtualization software packages such as VirtualBox, which was used for this thesis, cannot present WiFi frames to the virtual machine. 
 \npar
-After the setup of both kernels we can copy the construction of the userspace and run the test. This test is the same test we ran on the virtual devices and proves the communication between the two physical devices over WiFi. For this test we set up an ad-hoc network with static IP addresses (unrelated to RINA) which gave us certainty that the devices could reach each other. The proof of communication can be found on the physical media in the logfiles.
+After the setup of both kernels and the relevant userspace, we can run the test. This test is the same test we ran on the virtual devices and proves the communication between the two physical devices over WiFi. For this test we set up an ad-hoc network with static IP addresses (unrelated to RINA) which gave us certainty that the devices could reach each other. The proof of communication can be found on the physical media in the logfiles.
 
 \section{Android implementation}
 
@@ -125,7 +125,7 @@ The first subsection is dedicated to the implementation of an Android kernel. Wh
 \\
 Unlike the Linux kernel, is the Android kernel fairly device specific. Android kernels are provided by the producer of the smartphone and are iterated upon from that point on. In most cases this means that the kernel is almost never updated compared to the more recent Linux kernels. This can be instantly noted with our kernel. The version of this kernel is 3.0.101, at the time of writing (June 2014) the most recent Linux kernel is 3.16.x. The only update that was brought to this kernel during the entire Thesis was an upgrade from version 3.0.64 to 3.0.101. A fairly minor update in essence. These Android kernels are specifically tailored to each device. Most changes in these kernels comes from optimization processes by community developers who try to squeeze a bit more out of the kernel. Examples of this could be: updating specific files, changes hardware settings, adding modules to improve functionality, \ldots. Since Android devices are almost never modular, adding different device drivers quickly becomes useless these developers. And while the newest kernels could support the newest hardware, this is simply not needed for these ``older'' devices which rely on a basic, stable kernel. 
 \npar
-For our device, \emph{Samsung Galaxy SII - i9100}, we opted to go for the Cyanogenmod ROM with a modified Apolo kernel. The following reasoning was used: cyanogenmod was chosen because several reasons. These are:
+For our device, \emph{Samsung Galaxy SII - i9100}, we opted to go for the Cyanogenmod ROM with a modified Apolo\footnote{\url{http://forum.xda-developers.com/galaxy-s2/development-derivatives/kernel-t2291756}} kernel. The following reasoning was used: cyanogenmod was chosen because several reasons. These are:
 
 \begin{itemize}
 	\item Large development community
@@ -142,7 +142,7 @@ The kernel we chose for this project is the Apolo Kernel, branch 7.0b, specifica
 	\item Stable base kernel with minor branching for user based optimization
 	\item Updated codebase for the most recent CM build
 	\item Large development community
-	\item Good explanation on how to construct the kernel yourself
+	\item Good explanation on how to build the kernel yourself
 \end{itemize}
 
 This clearly shows the reasons why we chose this kernel. We have to note that other kernels that are built for Cyanogenmod Milestone 7 are fairly similar and could be considered almost equal to this kernel. Since we plan to add code to the kernel we first have to be able to build this basic kernel from scratch ourselves. This involves forking the repositories of both the initramfs and the kernel to our own github. These repositories can be found at: \url{https://github.com/mathieudevos/Kernel-smdk4412} and \url{https://github.com/mathieudevos/Initramfs_CM_4.4.x}. 
@@ -152,15 +152,15 @@ Before we can build these kernels we should briefly explain what initramfs is. I
 \begin{enumerate}
 	\item Switch to the wip-md branch in the kernel repository. This is the work in progress branch which contains some minor changes.
 	\item Change the name of the initramfs folder to match the forked repository. Thus changing it to ``initramfs''. 
-	\item Prepare the config file by copying it from \emph{arch/arm/configs} to the root folder. Consequently change the name to \emph{.config}
+	\item Further steps involving kernel building on Android (see Appendix~\ref{chap:app-b})
 \end{enumerate}
 
-The changes that are made to this kernel involve two patches. These patches affect the cypress keyboard device drivers, which is needed to utilize the hardware keys and the cl\_cfg80211 file. After these patches are applied, one can run the mk.sh file and acquire a new zImage that can be flashed as a kernel on the devices. When successful, you should see similar information in the ``About the phone'' section of settings menu:
+The changes that are made to this kernel involve two patches. These patches affect the cypress keyboard device drivers, which is needed to utilize the hardware keys and the cl\_cfg80211 file. After these patches are applied, one can run the mk.sh file and acquire a new zImage that can be flashed as a kernel on the devices. When successful, you should see similar information in the ``About phone'' section of settings menu:
 \npar
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{figures/screenshot-kernel-i9100}
-    \caption{Screenshot of ``About the phone'' section of settings} 
+    \caption{Screenshot of ``About phone'' section of settings} 
     \label{fig:screenshot-kernel-i9100}
 \end{figure}
 
@@ -189,30 +189,39 @@ A quick glance at the code shows us that we are in fact passing 5 arguments to t
 
 %First subsection about how to compile a base android kernel with glibc. Show steps taken to complete this process.
 
-In this subsection we address the implementation of GlibC alongside Android. The reasons why we cannot stay with the same standard C library is fairly logic. Bionic, the C library for Android, does not provide full fledged support for \cpp. Simply said, if we want to install the userspace of IRATI, we will need access to a full C library. Several options are available here:
+In this subsection we address the implementation of GlibC alongside Android. The reasons why we cannot stay with the same standard C library is fairly logic. Bionic, the C library for Android, does not provide full fledged support for \cpp, more on this can be read in the literature study~\ref{ssec:android-restrictions}. Simply said, if we want to install the userspace of IRATI, we will need access to a full C library. Several options are available here:
 
 \begin{itemize}
-	\item GNU C Library (GlibC)
+	\item GNU C Library (glibc)
 	\item dietlibc
-	\item $\mu$libc
+	\item $\mu$clibc
 	\item EGLIBC
 \end{itemize}
 
 We opted to for the most common library GlibC, because after further research we noted that this was the only one that had been implemented in Android. However it has never been done for the test devices, thus no previous experience could be relied upon. 
 \\
-After the implementation of the library we face another problem. Before the installation of the userspace can commence, we need some additional packages. The packages are freely available on Debian Wheezy systems. The packages are listed in the subsection, test bench irati~\ref{ssec:test-bench-irati}. While these packages can be simply acquired from the source by running the standard ``apt-get install'' command, this is unavailable in Android. Not only is it not available, the packages would be incompatible. 
+After the implementation of the library we face another problem. Before the installation of the userspace can commence, we need some additional packages. The packages are freely available on Debian Wheezy systems. The packages are listed in the subsection, test bench irati (~\ref{ssec:test-bench-irati}). While these packages can be simply acquired from the source by running the standard ``apt-get install'' command (on Debian), this is unavailable in Android. The problem here is not that this command is OS-specific, it is that this command will also automatically check all dependencies for these packages. Furthermore is it possible that these packages do not support the ARM architecture, or are simply incompatible with the Android Operating System. 
 \npar
-Fixing this would require recompiling shell with GlibC so we would have a fully fledged shell with all commands. Next we would have to cross-compile every package and their dependencies separately. Then we would have to carefully install these packages on an alien system and hope that we would have the full functionality and commands available from these packages. This is clearly outside the realm of possibilities within this Master's Thesis. Again, we need to look for an alternative. If this alternative is implementable within the timeframe of this Thesis is unknown.
+Fixing this would require recompiling shell with GlibC so we would have a fully fledged shell with all commands. Next we would have to cross-compile every package and their dependencies separately. Then we would have to carefully install these packages on an alien system and hope that we would have the full functionality and commands available from these packages. This is clearly outside the scope of this Master's Thesis. Again, we need to look for an alternative. If this alternative is implementable within the timeframe of this Thesis is unknown.
 \npar
-A final remark about this userspace section of IRATI code. Currently the userspace section of IRATI provides RINA through the use of \cpp code.  We note that these \cpp functions are mapped to JAVA with the use of SWIG. SWIG is an interface compiler which connects C and \cpp code to other languages, in our case: JAVA. However, Android's Native Development Kit (NDK) provides this exact same function. In essence could the project be optimized by writing the \cpp section within the NDK and staying within the boundaries of Bionic. If this is successful then the JAVA code should require no changes and could be reused in the project. 
+A final remark about this userspace section of IRATI code. Currently the userspace section of IRATI provides RINA through the use of \cpp code. This can be seen in the figure~\ref{fig:userspacearch} below.  We note that these \cpp functions are mapped to JAVA with the use of SWIG. SWIG is an interface compiler which connects C and \cpp code to other languages, in our case: JAVA. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{figures/userspacearch}
+    \caption{Overview of IRATI} 
+    \label{fig:userspacearch}
+\end{figure}
+
+We see that the section of librina is mostly written in \cpp and then translated to Java functions through SWIG. This is the exact functionality that Android NDK also provides. It provides a environment that allows the developer to code in C or \cpp and translates this code to native libraries which can then be packed in \emph{.apk} files. These are Android specific files which represent programs. However, Android NDK comes with some limitations, as it is built for Android, it is specifically tailored to the Bionic library and does not support glibc. A solution for this is to use a different NDK, such as Crystax NDK\footnote{\url{https://www.crystax.net/en/android/ndk}}. These provide full support for \cpp and would thus perfectly fit for librina. If the kernel could be successfully implemented, the RINA userspace code that is written in \cpp (librina) should be imported in this NDK, adapted to the NDK and then produced as an .apk file. The rinad section (see figure~\ref{fig:userspacearch} above), is written in Java, thus can be copied to Android and be presented as a simple program. Of course, the librina can be imported as a native library then in one bigger program, which would also contain rinad. Given the current state of the IRATI project, this seems the most feasible solution towards implementation on Android.
 
 \subsection{Android specific implementation}
 
 %Specific implementation for the Galaxy S2, select stable kernel (cyanogenmod) and show changes made to add glibc and irati to it. Show if it works on the devices.
 
-Following the previous subsections, this subsection is dedicated to an epitome of the entire process. However, as we have noted we have encountered a plethora of difficulties in both kernelspace and userspace. This means that the actual implementation on the physical devices could not be realized and thus the test can not be completed. We do believe that while the original research question states: ``How to implement RINA on Android over WiFi'', we have proven that the WiFi aspect does not matter in this equation and that Android is a very strict platform. 
+Following the previous subsections, this subsection is dedicated to an representation of the entire process. However, as we have noted we have encountered a plethora of difficulties in both kernelspace and userspace. This means that the actual implementation on the physical devices could not be realized and thus the test can not be completed. We do believe that while the original research question states: ``How to implement RINA on Android over WiFi'', we have proven that the WiFi aspect does not matter in this equation and that Android is a very strict platform. 
 \npar
-Because Android is such a specific platform we can see this research question in a different light. How to expand the IRATI codebase to alternatives other than Debian Wheezy. In the final subsection of the implementation we address the alternatives that could prove to be helpful. Finally we attempt to show brief implementation processes that could be feasible for these alternatives, concerning RINA.
+Because Android is such a specific platform we can see this research question in a different light. How to expand the IRATI codebase on different Linux-like Operating Systems, possibly with different architectures. In the final subsection of the implementation we address the alternatives that could prove to be helpful. Finally we attempt to show brief implementation processes that could be feasible for these alternatives, concerning RINA.
 
 \subsection{Alternative implementation possibilities}
 
@@ -223,6 +232,7 @@ The final subsection is dedicated to alternatives of implementation. As we have 
 	\item Debian next to Android
 	\item Debian on Android
 	\item Sailfish Operating System 
+	\item More recent device
 \end{itemize}
 
 \npar
@@ -238,7 +248,6 @@ The third option, Debian on Android, might turn out to be the most interesting o
 	\item Debian Kit
 	\item Linux Deploy
 	\item Complete Linux Installer
-	\item More recent device
 	\item \ldots
 \end{itemize}
 
@@ -246,7 +255,7 @@ Given the limited timeframe we will attempt to test several of these devices and
 \npar
 The second to last option that we will address here is the option of looking towards other operating systems that support ARM. Sailfish OS is such an operating system. It is built for ARM devices but ships with a fully fledged glibc library. Furthermore does it still support Android application through an adaptor layer. However, since no such device is physically available for this Master's Thesis we have to consider this option as an alternative, however not a viable alternative at this point of time.
 \npar
-The final option is simply to update the test devices. They run on kernel version 3.0.101, while newer devices easy run on 3.4.x. The newest devices will soon also start to be built for ARMv8 instead of ARMv7, which could open the doors further for technological improvements. Not only do new devices have more technological options, since they are newer most of these devices will have a bigger, newever developing community, eager to get their hands on extra implementations. One of these implementations could be to acquire a working RINA on Android.
+The final option is simply to update the test devices. They run on kernel version 3.0.101, while newer devices easy run on 3.4.x. The newest devices will soon also start to be built for ARMv8 instead of ARMv7, which could open the doors further for technological improvements. Not only do new devices have more technological options, since they are newer most of these devices will have a bigger, more recent developing community, eager to get their hands on extra implementations. One of these implementations could be to acquire a working RINA on Android.
 \npar
 We can conclude that even with different alternatives we do not have one clear alternative that offers us the entire solution. While we have acquired plentiful knowledge about the subject and all relevant options, alternatives, \ldots. We have to consider the limited timeframe and scope of this Master's Thesis. The alternatives will be tested but we have to consider the downsides to each of these implementation alternatives.
 

@@ -29,7 +29,7 @@ The Shim DIF over WiFi is not a fully functional DIF. This means that some limit
 
 \begin{itemize}
 	\item Limited amount of flows due to the usage of the LLC header for flow differentiation (802.2 standard\citep{ieee8022std}).
-	\item Only type 1 operation of LLC is useable, this means no Data State Vectors can be used
+	\item Only type 1 operation of LLC is useable, this means no Flow Allocation with LLC is possible.
 \end{itemize}
 
 The reason why we can only use Type 1 operation is because the other types (2 \& 3) require constant ACKing of packets. These packets are then marked with ACK numbers, limited to 128 different values. This is considered too low in the current high bandwidth traffic that can occur. Thus only Type 1 operation, which has no ACKing, but also Data State vectors, can be used. Even with these restrictions the Shim DIF provides enough support at the bottom layer of the architecture that other DIFs can build further upon. The Shim DIF provides QoS-cubes, flow differentiation and other options such as fragmentation possibilities. The Shim DIF presents the WiFi stack towards upper layer DIFs as a DIF.
@@ -142,24 +142,24 @@ SAPs will be used to distinguish between different connections, the current addr
 
 \npar
 
-This leaves 6 bits per address field free to choose. The least significant bit is always on the left, this means that when presenting these addresses as hex. We will only use individual SAPs and discard the Command/Response bit due to not having Data State Vectors available. The second least significant bit will also be left 0, due to the ISO definition3. This means we can only use \{0, 4, 8, C\} for our last hex symbol. This leaves the following possibilities free to choose from: 0x\{XY\}. With X = \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F\} and Y = \{0, 4, 8, C\}. In total, 64 SAP addresses can be used within the Shim DIF.
+This leaves 6 bits per address field free to choose. The least significant bit is always on the left. We will only use individual SAPs and discard the Command/Response bit due to not having Data State Vectors available. The second least significant bit will also be left 0, due to the ISO definition. This means we can only use \{0, 4, 8, C\} for our last hex symbol. This leaves the following possibilities free to choose from: 0x\{XY\}. With X = \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F\} and Y = \{0, 4, 8, C\}. In total, 64 SAP addresses can be used within the Shim DIF.
 
 
 
 \subsection{DSAP address field}
 
-The Destination Service Access Point will be used to identify the flow on the destination IPC Process. For correct mapping on addressing we op to currently store a mapping between application-naming and connection address locally.
+The Destination Service Access Point will be used to identify the flow on the destination IPC Process. For correct mapping on addressing we currently store a mapping between application-naming and connection address locally.
 
 \subsection{SSAP address field}
 
-The Source Service Access Point will be used for to identify the flow on the current IPC Process. For correct mapping on addressing we op to currently store a mapping between application-naming and connection address locally.
+The Source Service Access Point will be used for to identify the flow on the current IPC Process. For correct mapping on addressing we currently store a mapping between application-naming and connection address locally.
 
 \section{Use of Address Resolution Protocol}
 \label{sec:arp}
 
-Because the RINA Flow Allocator is unavailable at this low level, we opt to reuse ARP for this WiFi Shim DIF. ARP will be used to map an application-naming (1-DIF) to the address of a Shim IPC Process (0-DIF). ARP can normally be used to map a network address of variable, unlimited length to a link layer address of any length. However, the most used implementation is the IPv4 ARP implementation \citep{arp1998}.
+Because the RINA Flow Allocator is unavailable at this low level, the Shim DIF reuses ARP in a request/response mode to perform Flow Allocation. ARP \citep{arp1998} will be used to map an application-naming (1-DIF) to the address of a Shim IPC Process (0-DIF). Currently ARP is used to map a hardware address to an IP(v4) address. 
 \\
-Below is the ARP frame represented by this IPv4 ARP implementation. Any further references to ARP will imply the use of this frame, which is RFC826 compliant\footnote{\url{http://tools.ietf.org/html/rfc826}}.
+Below is the ARP frame represented by  the RFC826 implementation\footnote{\url{http://tools.ietf.org/html/rfc826}}. 
 
 
 \begin{table}[H]
@@ -176,13 +176,13 @@ Below is the ARP frame represented by this IPv4 ARP implementation. Any further 
 				\multicolumn{2}{|c|}{Hardware address target (if known) (n bytes)} \\ \hline
 				\multicolumn{2}{|c|}{Protocol address target (m bytes)} \\ \hline
 		\end{tabular}
-		\caption{ARP frame format (RFC826 compliant)}
+		\caption{ARP frame format}
 	\end{center}
 \end{table}
 
 \npar
 
-In the chart below we show how ARP is used in the Shim DIF. Locally an ARP table is kept with entries which map Shim IPC Process Addresses (MAC addresses) to Application names. When data transfer is required, the Shim IPC Process sends out an ARP request to find the Shim IPC Process Address which corresponds to the application name of the destination. The local ARP cache is queried and the corresponding Shim IPC Process responds with an ARP response with the Shim IPC Process Address.
+In the chart below we show how ARP is used in the Shim DIF. Locally an ARP table is kept with entries which map Shim IPC Process Addresses (MAC addresses) to Application names. When data transfer is required, the Shim IPC Process asks the ARP protocol to send out an ARP request to find the Shim IPC Process Address which corresponds to the application name of the destination. 
 
 \npar
 
@@ -214,7 +214,7 @@ ARP has a 1 byte length field for the network protocol address. For the Shim DIF
 
 \npar
 
-Encoded this becomes: ``16:echo-IPC-Process1:14:Data1:1''. Note that these are all strings. As an alternative we can also use a synonym for the application name. A synonym for this is the name of the Application Process instance with a default Application Entity instance. 
+Encoded this becomes: ``16:Echo-IPC-Process1:14:Data1:1''. Note that these are all strings. As an alternative we can also use a synonym for the application name. A synonym is the name of the Application Process instance with a default Application Entity instance. 
 \\
 Since we need to send the source and destination application name, but we only have one network protocol length field, we choose the longest application name. The other, shorter application name is then filled with padding (zero bytes, 0x00) which are removed by the receiving IPC Process. This causes some overhead, but this overhead stays very small because these ARP frames only need to be sent during the flow allocation phase.
 
@@ -300,7 +300,7 @@ Every Shim IPC Process is assigned to a WiFi interface. Before the Shim DIF can 
 
 \subsection{Shim IPC Process info}
 
-The WiFi device address is the Shim IPC Process address and the SSID is the DIF name. This SSID is broadcasted periodically as a beacon frame. This info also includes other information such as: WEP-key, WPA, \ldots.
+The Shim IPC Process needs information on the device to which it is bound. This information is: name of device (wlan0, \ldots), hardware address of the device, state of the device (UP/DOWN). Furthermore it requires information to interact with the wireless network this device is part of. This information consists of: SSID, Encryption, Channel, Encryption-key.
 
 \subsection{Port-id to CEP-id directory}
 
@@ -312,7 +312,7 @@ Since no explicit flow allocation is possible, it is currently not possible to c
 
 \section{Bootstrapping}
 
-Upon creation the Shim IPC Process communicates with the OS to address the traffic from WiFi towards the Shim IPC Process. This traffic must be part of the same DIF (SSID), the MAC address must be the same as the interface the Shim IPC process is bound to. Finally the SAP must be used by the Shim DIF. When these conditions are fulfilled we assume that all traffic is RINA traffic and should be handled by the Shim IPC Process.
+Upon creation of the Shim IPC Process, the Shim IPC Process assumes its position in the DIF. This DIF name is the same name as the SSID. First the Shim IPC process is bound to the interface and assumes the Shim IPC Process address is the same as the hardware address of the wireless device. When this wireless device becomes part of the network, the Shim IPC Process is considered to be part of the DIF. When these conditions have been met, we assume that all traffic will be RINA traffic and should be handled by the Shim DIF.
 
 \section{Application (un)registration}
 
@@ -335,15 +335,7 @@ The Shim IPC process over WiFi assumes the following API from ARP:
 
 These 3 functions are provided by ARP.
 
-\npar
-
-The Shim IPC process over WiFi also assumes the following functions from API regarding the CEP-id to port-id mapping.
-
-\begin{description}
-	\item[ci-piAdd(CEP-id,Port-id).submit] This adds a mapping between a CEP-id and a Port-id. If this entry is added it returns: ``success'', otherwise ``failure'' is returned.
-	\item[ci-piRemove(CEP-id,Port-id).submit] This removes a mapping between a CEP-id and a Port-id. Since this is a 1(Port-id)-to-N(CEP-id) mapping it is allowed that one of the function variables is void. In case the CEP-id is void, all CEP-ids corresponding to the Port-id will be removed, in case the Port-id is empty, only one CEP-id to Port-id entry will be removed. If this entry is removed it returns: ``success'', otherwise ``failure'' is returned.
-	\item[sapMapping(CEP-id,Port-id,Application-naming).submit] Requests the Shim IPC Process to look in the provided table to find a mapping between the CEP-id and the Application-naming. If successful this calls ci-piAdd(CEP-id,Port-id) and consequently calls a positive sapMapping.deliver(+). If the unsuccessful a negative sapMapping.deliver(-) is called and no mapping is added to the CEP-id to Port-id directory. Note that this function always requires a Port-id and either a CEP-id (receiving Shim IPC Process) or Application-naming (sending Shim IPC Process). 
-\end{description}
+	 
 
 \npar
 
@@ -351,7 +343,7 @@ Port-ids are linked to CEP-ids and are tristate variables. The 3 states of a por
 
 \begin{description}
 	\item[NULL] The port-id is unusable in this state
-	\item[PENDING-SP] This state of the port-id can originate from two possibilities. The application process has initiated the flow allocation, requested sapMapping and is idle in the PENDING-SAP state until it receives an sapMapping.deliver. The other option is that it has received a request to create a flow and is currently waiting for the sapMapping.submit function to finish, it stays in the PENDING-SAP until it receives sapMapping.deliver.
+	\item[PENDING-SAP] This state of the port-id can originate from two possibilities. The application process has initiated the flow allocation, requested sapMapping and is idle in the PENDING-SAP state until it receives an sapMapping.deliver. The other option is that it has received a request to create a flow and is currently waiting for the sapMapping.submit function to finish, it stays in the PENDING-SAP until it receives sapMapping.deliver.
 	\item[PENDING-ARP] This state of the port-id can originate from 2 possibilities. The port-id has received the sapMapping.deliver(+) function and the arpMapping.query has been called. The port is idle in the PENDING-ARP state until it receives the arpMapping.deliver. The other possibility is that the request to create a flow has delivered the sapMapping.deliver(+) and is waiting for the allocateResponse.submit to finish the flow allocation.
 	\item[ALLOCATED] This state indicates that the flow has been allocated and the port-id can be used to read/write data to/from.
 \end{description}
@@ -399,6 +391,12 @@ If the port-id is in the PENDING state, (there is an outstanding allocateRequest
 This can be invoked by the reception of a WiFi frame when the port-id is in the NULL state. The port-id transitions to the PENDING-SAP state and the Shim IPC process awaits the sapMapping(reason).deliver response. It can also be invoked by the allocateRequest.submit function. The port-id transitions to the PENDING-SAP state and awaits the sapMapping(reason).deliver response. If the port is in the ALLOCATED nothing happens.
 \subsubsection{Action upon receipt}
 When received, the locally stored ``SAP to naming-information'' database is queried. The response is the sapMapping(reason).deliver response.
+
+\subsection{sapMapping(CEP-id,Port-id,Application-naming).submit}
+\subsubsection{When invoked}
+When a mapping is found by sapMapping(CEP-id,Port-id,Naming-info) this function is invoked.
+\subsubsection{Action upon receipt} 
+Requests the Shim IPC Process to look in the provided table to find a mapping between the CEP-id and the Application-naming. If successful this adds an entry to the ``Port-id to CEP-id directory'' and consequently calls a positive sapMapping.deliver(+). If the unsuccessful a negative sapMapping.deliver(-) is called and no mapping is added to the CEP-id to Port-id directory. Note that this function always requires a Port-id and either a CEP-id (receiving Shim IPC Process) or Application-naming (sending Shim IPC Process). 
 
 \subsection{sapMapping(reason).deliver}
 \subsubsection{When invoked}

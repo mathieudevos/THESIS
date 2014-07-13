@@ -17,7 +17,7 @@
 \usepackage{tabulary}
 %\usepackage{adjustbox}									% Adjustbox
 \usepackage{hyphenat}										% Force no hyphens
-
+  
 \usepackage[utf8]{inputenc}           	% Om niet ascii karakters rechtstreeks te kunnen typen
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -307,6 +307,8 @@
 
 \includepdf{title.pdf}
 
+
+\input{consultation}
 \input{preface}
 \input{abstract}						% input of intro if available
 
@@ -333,6 +335,17 @@
 \input{md_03_shim_dif_spec}
 \input{md_04_implementation}
 \input{md_05_conclusion}
+
+\newpage								% Used to input empty page
+\thispagestyle{empty}
+\mbox{}
+
+\appendix
+\appendixpage
+
+\input{md_app_a}
+\input{md_app_b}
+
 
 %\input{md_06_background_study}
 

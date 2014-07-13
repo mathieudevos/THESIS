@@ -1,0 +1,212 @@
+\chapter*{Appendix B: Construction of kernels guide}
+\label{chap:app-b}
+
+
+This guide stipulates how to create kernels for Linux, Android in general and specificcaly to the Samsung Galaxy SII device (i9100). We assume the person operating these systems to be utilizing a Debian or Debian-like system. Other systems might require different commands. 
+
+\section*{Kernel compilation for linux}
+
+First, lets get a kernel from \url{http://www.kernel.org} we recommend just getting a long term kernel that is based on your current kernel. For this guide we'll be using the \engels{3.2.49 linux kernel}\footnote{\url{https://www.kernel.org/pub/linux/kernel/v3.x/linux-3.2.49.tar.xz}}.
+
+\npar
+
+Now you'll want to extract 
+\begin{quote} \begin{verbatim}tar -xvf linux-3.2.49.tar.xz \end{verbatim} \end{quote} 
+and move to the directory of this kernel.
+\begin{quote} \begin{verbatim}cd linux-3.2.49/ \end{verbatim} \end{quote}
+
+\npar
+
+Before we go any further we'll need some packages to ensure a proper build and help us down the road. To get these packages run:
+
+\begin{quote} \begin{verbatim}sudo apt-get install libncurses5-dev gcc make git exuberant-ctags \end{verbatim} \end{quote}
+
+Note that for pure kernel building you can follow the guide from KernelNewbies\footnote{\url{http://kernelnewbies.org/KernelBuild}}, this section will follow this guide quite a bit but will show where you can make changes.
+
+\npar 
+
+If you do not wish to download a .tar you can opt to get the code directly from the git as shown on KernelNewbies with the following command:
+
+\begin{quote} \begin{verbatim}git clone link.git && cd map  \end{verbatim} \end{quote}
+
+After this you might still need to check out to the correct branch. To list them run:
+
+\begin{quote} \begin{verbatim}git branch -a \end{verbatim} \end{quote}
+
+Check out the branch you want (stable, longterm, ...) with:
+
+\begin{quote} \begin{verbatim}git checkout -t origin/branchname \end{verbatim} \end{quote}
+
+Now we need a configure file for this kernel, several options are available here.
+
+\subsection*{Copy current configure file}
+
+This is most likely the simplest and fastest way to set up your config file. Simply copy your current config file and place it in the kernel folder (named \engels{.config} - this means it's an invisible file). This can be easily done with the follow command:
+
+\begin{quote} \begin{verbatim}cp /boot/config-`uname -r`* .config \end{verbatim} \end{quote}
+
+Note that this command will have to be run from inside the kernel directory. The part \engels{uname -r} basically prints your current kernel version thus it will select the config for your current active kernel (important if you have multiple kernels).
+
+\subsection*{Making default configuration}
+
+This is the very default configuration. If you run this you and instantly try to compile your kernel you will get a huge number of questions trying to figure out how to set up your kernel. This can take a while and could leave you without some important options (it's easy to miss them). Hence why we recommend to copy your own config and make changes to it (see subsection menuconfig below). If you want to create a default config, just run this code from the kernel directory:
+
+\begin{quote} \begin{verbatim}make defconfig \end{verbatim} \end{quote}
+
+\subsection*{Making non-default configuration}
+
+Some kernels provide more base configuration files, you can find these in \engels{arch/your\_architecture/configs}. If you are unsure what your architecture is, just run
+
+\begin{quote} \begin{verbatim}uname -m \end{verbatim} \end{quote}
+
+Lets say you have a config file name x86\_64 in there that is a config file. To prepare your build with this configuration file, just run 
+
+\begin{quote} \begin{verbatim}make x86_64 \end{verbatim} \end{quote}
+
+from your kernel base directory.
+
+\subsection*{Change configuration file}
+
+Once you have your configuration file (through copy or make defconfig) you can edit this through a simple visual editor with the following commands:
+
+\begin{quote} \begin{verbatim}make menuconfig \end{verbatim} \end{quote}
+
+or 
+
+\begin{quote} \begin{verbatim}make nconfig \end{verbatim} \end{quote}
+
+\subsection*{Kernelcompilation}
+
+The actual kernel compilation is done by running the following command from your kernel base directory:
+
+\begin{quote} \begin{verbatim}make \end{verbatim} \end{quote}
+
+This can take a while and if you have a multicore processor you can advantage of this by adding an option to this make. The command becomes:
+
+\begin{quote} \begin{verbatim}make -j`nproc` \end{verbatim} \end{quote}
+
+Nproc will return the number of cpu cures thus this will run make with just as much threads as you have cpu cores.
+
+\section*{Kernel compilation for android}
+
+For android a small part is different, but it's the general idea that stays the same.
+
+\subsection*{Toolchain}
+
+Android needs to be build with a custom gcc toolchain. This toolchain can be found at: \url{https://github.com/mathieudevos/arm-eabi-4.6}. With git this becomes
+
+\begin{quote} \begin{verbatim}git clone https://github.com/mathieudevos/arm-eabi-4.6.git \end{verbatim} \end{quote}
+
+Note that you should \textbf{NOT} be in your kernel directory, it is recommended that you run this git command in the parent folder of the kernel. This would end up with one folder named linux-3.2.49 and one named arm-eabi-4.6.
+
+\npar
+
+Older toolchains might not work on your system as 4.6 is the first one to be written for 64bit operating systems (note that this entire process is written for 64bit). Once you have the toolchain we now need to point the Makefile to this toolchain.
+
+\subsection*{Initramfs for android}
+
+Since this can not be automatically copied from your current kernel you need to specify your own initramfs. While you can build your own initramfs with following script: \engels{kernel/scripts/gen\_initramfs\_list.sh}, we do not recommend it as you need a very specific set of parameters for this. 
+
+\npar
+
+If you are only building your kernel for the sake of kernel modules (thus just matching version) you can use the default initramfs file by just running
+
+\begin{quote} \begin{verbatim}./gen_initramfs_list.sh -u 0 -g 0 -d > default_initramfs.list \end{verbatim} \end{quote}
+
+
+
+\npar
+
+For a normal kernel build that you intend to install we recommend you ``steal'' an initramfs file from an existing kernel. For the I9100 device we will provide our own initramfs that should work, it can be found here: \url{https://github.com/mathieudevos/android_kernel_samsung_smdk4210/blob/cm-10.1/usr/galaxys2_initramfs.list}. 
+
+\npar
+
+After you have acquired your initramfs file you just need to make your kernel point towards it, this is done in the \engels{.config} file, change the follow field:
+
+\begin{quote} \begin{verbatim}CONFIG_INITRAMFS_SOURCE="./usr/galaxys2_initramfs.list" \end{verbatim} \end{quote}
+
+\subsection*{Kernel build preparation}
+
+Open the \engels{Makefile} in your kernel folder with a text editor. Find and change to the following data fields:
+
+\begin{quote} \begin{verbatim}ARCH ?= arm
+CROSS_COMPILE ?= ../arm-eabi-4.6/bin/arm-eabi- \end{verbatim} \end{quote}
+
+\npar
+
+After this is done you can open your \engels{.config} file and change your 
+
+\begin{quote} \begin{verbatim}CONFIG_LOCALVERSION="" \end{verbatim} \end{quote}
+
+If you have a very similar kernel to the one you are currently running and only wish to use this kernel for building kernel modules you must make sure this name reflects your kernel name. The versions should match (see on top of Makefile) and also the localversion should match. 
+\npar
+Sometimes however, it is easier to build a kernel from scratch and install said kernel and only after that is done start building your kernel modules on this kernel. This will insure good integration between your kernel modules and your kernel.
+
+
+\section*{Kernel installation for linux}
+
+The linux kernel that you just compiled can easily be installed into your current system by running following commands from the base kernel directory:
+
+\begin{quote} \begin{verbatim}sudo make modules_install install \end{verbatim} \end{quote}
+
+This will install your kernel to the \engels{/boot/} folder, install your modules (the ones shipped with your kernel, we will make our own) and update your grub bootloader. To use this command you do need an installkernel script, which grubby provides.
+
+\npar
+
+If you want to be sure your grub bootloader will present you with the option of choosing your kernel on boot you should make a few modifications in the grub file. This file can be found at \engels{/etc/default/grub}. To ensure that you are always presented with the option of choosing your kernel, delete the following line:
+
+\begin{quote} \begin{verbatim}GRUB_HIDDEN_TIMEOUT_QUIET \end{verbatim} \end{quote}
+
+If you want you can still change the timeout timer so you have a bit more time to choose your kernel. Just edit:
+
+\begin{quote} \begin{verbatim}GRUB_DEFAULT timeout \end{verbatim} \end{quote}
+
+After you modified this file, just finish with the command:
+
+\begin{quote} \begin{verbatim}sudo update-grub2 \end{verbatim} \end{quote}
+
+This concludes the Linux kernel building and installation. You should now be able to build your own linux kernel and boot into it.
+
+\section*{Kernel installation for android}
+
+Android is quite a bit harder to install your own kernel. After you are done with building your kernel with the toolchain you will find a zImage (or similar name) in your \engels{kernel/arch/arm/boot} folder. This is the image that we want to flash onto our device.
+
+\npar
+
+Depending on your device this is done after you unlocked your bootloader (general setup) or for instance with a specific tool (heimdall) for older devices like \engels{Samsung Galaxy S2 - I9100}. After you have your zImage ready we now need to overwrite your old zImage. \\
+
+\begin{warning}
+\textbf{unlocking your bootloader and/or installing new kernels can void your warranty, we cannot be help responsible for any damages caused by following this guide}
+\end{warning}
+
+\subsection*{General install on newer devices}
+
+After you have unlocked your phone (google this) you should install android sdk which should give you access to fastboot. You can confirm this by plugging your device in and running
+
+\begin{quote} \begin{verbatim}fastboot devices \end{verbatim} \end{quote}
+
+For this command to work you have to be in fastboot mode, this is mostly done by a hardware key combination on boot, google this for your phone. This command should show your device in the terminal window. Once you have this, lets move to our zImage folder and try to boot with this kernel (but not flash it).
+
+\begin{quote} \begin{verbatim}fastboot boot zImage \end{verbatim} \end{quote}
+
+If your phone boots properly into your new kernel and you can check this within settings that this is actually your kernel, you can repeat the process but now flash your kernel.
+
+\begin{quote} \begin{verbatim}fastboot flash zimage zImage \end{verbatim} \end{quote}
+
+This concludes installing your zImage through fastboot.
+
+\subsection*{Specific installation on galaxy S2}
+
+If you do not have a galaxy S2 you should skip this part as it uses a custom program that only works for this device.
+
+\npar
+
+Boot your phone into download mode (press volume down, power and menu for 10 seconds). Once you have your phone in this mode, go to download mode. From this mode run the heimdall command with:
+
+\begin{quote} \begin{verbatim}heimdall print-pit \end{verbatim} \end{quote}
+
+This should return the partition points with the images attatched to them. We're looking for the zImage here, it'll be called \engels{kernel} or \engels{KERNEL}, this is important because it's case sensitive. Once you have this information, get ready to flash your zImage on the device with:
+
+\begin{quote} \begin{verbatim}heimdall flash --KERNEL zImage \end{verbatim} \end{quote}
+
+After this your phone should reboot with your new kernel on it.
